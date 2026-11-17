@@ -7,79 +7,309 @@
 <meta name="description" content="Ferramentas para quem fotografa e filma casamentos, feitas pela Sales Wed.">
 <meta property="og:title" content="Apps · Sales Wed.">
 <meta property="og:description" content="Ferramentas para quem fotografa e filma casamentos.">
-<meta property="og:image" content="https://apps.weddingflow.com.br/img/sales-wed.png">
-<link rel="icon" href="img/sales-wed.png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap">
+<meta property="og:image" content="https://apps.weddingflow.com.br/img/copio-512.png">
+<link rel="icon" href="img/copio-64.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
-/* Layout: coluna editorial alinhada à esquerda; os apps em lista com fios finos, cada um com seu ícone. */
-:root{--ivory:#F5F1EB;--ink:#24201C;--night:#161412;--soft:#6B6259;--rule:#D9D0C3;
-  --serif:"Cormorant Garamond","Iowan Old Style",Georgia,serif;--sans:"Jost","Avenir Next","Segoe UI",system-ui,sans-serif}
+/* Layout: fundo vivo com arquivos de cartão flutuando (clique para "copiar"), cabeçalho com a marca em pixel,
+   abertura com título em adesivos, e os apps como cartões grossos com sombra em degrau. */
+:root{
+  --cream:#F1EADD; --paper:#FBF7EF; --white:#FFFFFF; --ink:#17161A; --soft:#5A554E; --line:#D8CEBC;
+  --red:#E2452F; --blue:#2F5FE0; --gold:#FFD9A0; --green:#1F8A5B;
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Inter",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --bw:3px; --r:18px;
+  color-scheme:light;
+}
 *{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;
-  padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
-::selection{background:var(--ink);color:var(--ivory)}
+::selection{background:var(--blue);color:var(--white)}
+body{margin:0;min-height:100vh;background-color:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  background-image:radial-gradient(rgba(23,22,26,.13) 1.3px, transparent 1.6px);background-size:24px 24px;
+  animation:pan 40s linear infinite;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@keyframes pan{to{background-position:24px 48px}}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
-.wrap{max-width:880px;margin:0 auto;padding-block:40px 64px}
-header{display:flex;align-items:center;gap:16px;padding-bottom:28px;border-bottom:1px solid var(--ink)}
-header img{height:64px;width:auto}
-header a{margin-left:auto;font-size:13px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:var(--soft)}
-header a:hover{color:var(--ink)}
-h1{font-family:var(--serif);font-weight:500;font-size:clamp(40px,6.4vw,68px);line-height:1.04;letter-spacing:-.01em;margin:56px 0 18px;max-width:14ch;text-wrap:balance}
-.lead{max-width:36em;color:var(--soft);margin:0 0 56px;font-size:18px}
-.label{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft);margin:0 0 4px}
-.apps{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
-.app{border-bottom:1px solid var(--rule)}
-.app a{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:22px;align-items:center;padding:26px 0;text-decoration:none}
-.app img{width:72px;height:72px}
-.app h2{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1.1;margin:0 0 4px}
-.app p{margin:0;color:var(--soft);font-size:16px;max-width:40em}
-.app .os{display:block;margin-top:6px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
-.app .go{font-size:15px;white-space:nowrap;border-bottom:1px solid var(--ink);padding-bottom:2px}
-.app a:hover .go{color:var(--soft);border-color:var(--soft)}
-.app a:hover h2{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
-.soon{padding:22px 0;color:var(--soft);font-size:15px;border-bottom:1px solid var(--rule)}
-footer{margin-top:56px;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:var(--soft)}
-footer a{color:var(--ink)}
-@media (max-width:560px){
-  .app a{grid-template-columns:56px minmax(0,1fr);gap:16px}
-  .app img{width:56px;height:56px}
-  .app .go{grid-column:2}
-  header img{height:52px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:8px}
+
+/* fundo: arquivos flutuando */
+#bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.chip{position:absolute;left:0;top:0;display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;background:var(--white);
+  border:2.5px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);font-family:var(--mono);font-size:13px;font-weight:600;
+  white-space:nowrap;will-change:transform;transition:background .25s,color .25s,opacity .3s;opacity:.5}
+.chip.near,.chip.done{opacity:1}
+.chip i{width:22px;height:22px;border-radius:6px;border:2px solid var(--ink);flex-shrink:0;display:grid;place-items:center;font-style:normal}
+.chip i svg{width:12px;height:12px}
+.chip.FOTO i{background:var(--blue)}
+.chip.VIDEO i{background:var(--red)}
+.chip.AUDIO i{background:var(--gold)}
+.chip.OUTROS i{background:var(--cream)}
+.chip.done{background:var(--blue);color:var(--white)}
+.chip.done i{background:var(--white)}
+.chip.pop{animation:pop .45s cubic-bezier(.16,1,.3,1)}
+@keyframes pop{0%{scale:1}35%{scale:1.22}100%{scale:1}}
+.spark{position:absolute;left:0;top:0;width:10px;height:10px;border:2px solid var(--ink);border-radius:3px;pointer-events:none}
+
+/* conteudo */
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding-block:22px 56px;
+  padding-left:max(18px, env(safe-area-inset-left, 0px));padding-right:max(18px, env(safe-area-inset-right, 0px));pointer-events:none}
+.wrap a,.wrap button,.card,.panel{pointer-events:auto}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.mark{width:58px;height:58px;border:var(--bw) solid var(--ink);border-radius:16px;background:var(--white);box-shadow:4px 4px 0 var(--ink);
+  display:grid;place-items:center;flex-shrink:0;pointer-events:auto;transition:transform .2s}
+.mark:hover{transform:rotate(-6deg)}
+.mark img{width:34px;height:auto}
+.word{height:30px;width:auto;display:block;color:var(--ink)}
+.insta{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:var(--white);border:var(--bw) solid var(--ink);border-radius:99px;
+  box-shadow:3px 3px 0 var(--ink);padding:7px 14px;font-weight:700;font-size:14px;text-decoration:none;transition:transform .12s,box-shadow .12s}
+.insta:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.insta svg{width:18px;height:18px}
+
+.hero{margin:54px 0 46px;max-width:860px}
+.hero h1,.hero .lead,h2{text-shadow:0 0 6px var(--cream),0 0 14px var(--cream)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,7vw,80px);line-height:.98;letter-spacing:-.03em;margin:0 0 22px;text-wrap:balance}
+.stk{display:inline-block;padding:0 .16em .04em;border:var(--bw) solid var(--ink);border-radius:.18em;box-shadow:5px 5px 0 var(--ink);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);pointer-events:auto}
+.stk.r{background:var(--red);color:var(--white);transform:rotate(-2.5deg)}
+.stk.b{background:var(--blue);color:var(--white);transform:rotate(2deg)}
+.stk:hover{transform:rotate(0) scale(1.04)}
+.lead{font-size:clamp(17px,2vw,20px);max-width:36em;margin:0 0 20px;color:#2C2A28}
+.panel{display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px 14px;background:var(--white);border:var(--bw) solid var(--ink);
+  border-radius:14px;box-shadow:4px 4px 0 var(--ink);padding:10px 14px;font-size:14px;font-weight:600}
+.panel .n{font-family:var(--mono);font-size:15px;background:var(--ink);color:var(--cream);border-radius:8px;padding:2px 9px;min-width:2.4em;text-align:center}
+.panel .n.bump{animation:pop .4s cubic-bezier(.16,1,.3,1)}
+.panel .hint{color:var(--soft);font-weight:500}
+
+h2{font-family:var(--display);font-weight:800;font-size:clamp(26px,3.4vw,34px);letter-spacing:-.02em;margin:0 0 16px;display:flex;align-items:center;gap:12px}
+h2 .count{font-family:var(--mono);font-size:14px;background:var(--white);border:2px solid var(--ink);border-radius:99px;padding:1px 10px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px;align-items:stretch}
+
+.card{position:relative;background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:7px 7px 0 var(--ink);
+  padding:22px;display:flex;flex-direction:column;gap:16px;min-width:0;transition:transform .18s cubic-bezier(.16,1,.3,1),box-shadow .18s}
+.card.app:hover{transform:translate(-3px,-3px);box-shadow:10px 10px 0 var(--ink)}
+.card .head{display:flex;align-items:center;gap:16px}
+.card .icon{width:88px;height:88px;flex-shrink:0;transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.card.app:hover .icon{transform:rotate(-8deg) scale(1.06)}
+.card h3{font-family:var(--display);font-weight:800;font-size:34px;line-height:1;letter-spacing:-.02em;margin:0 0 8px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;font-weight:700;border:2px solid var(--ink);border-radius:99px;padding:1px 9px;background:var(--cream)}
+.tag.new{background:var(--red);color:var(--white)}
+.card p{margin:0;color:#2C2A28}
+.term{background:var(--ink);color:var(--cream);border-radius:12px;padding:12px 14px;font-family:var(--mono);font-size:13px;line-height:1.7;overflow-wrap:anywhere}
+.term .a{color:#B9B2A6}
+.term .b{color:var(--gold);font-weight:600}
+.term .ok{color:#7FD3A6}
+.caret{display:inline-block;width:8px;height:1.05em;background:var(--cream);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--blue);color:var(--white);
+  border:var(--bw) solid var(--ink);border-radius:14px;box-shadow:5px 5px 0 var(--ink);padding:13px 20px;font-weight:700;font-size:17px;
+  text-decoration:none;transition:transform .1s,box-shadow .1s;align-self:flex-start;margin-top:auto}
+.btn svg{width:20px;height:20px}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+
+.card.soon{background:transparent;border-style:dashed;box-shadow:none;justify-content:center;align-items:flex-start;min-height:260px}
+.card.soon h3{font-size:28px}
+.dots{display:flex;gap:8px}
+.dots span{width:16px;height:16px;border:2.5px solid var(--ink);border-radius:5px;background:var(--white);animation:hop 1.4s ease-in-out infinite}
+.dots span:nth-child(1){background:var(--red)}
+.dots span:nth-child(2){background:var(--blue);animation-delay:.18s}
+.dots span:nth-child(3){background:var(--gold);animation-delay:.36s}
+@keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-10px)}}
+
+footer{margin-top:52px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;font-size:14px;font-weight:600}
+footer .pill{background:var(--white);border:2px solid var(--ink);border-radius:99px;padding:4px 12px;pointer-events:auto}
+
+@media (max-width:760px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .hero{margin:36px 0 34px}
+  .card .icon{width:72px;height:72px}
+  .card h3{font-size:30px}
+}
+@media (max-width:420px){
+  .word{height:24px}
+  .mark{width:50px;height:50px}
+  .btn{align-self:stretch}
+  .insta{padding:6px 11px}
+}
+@media (prefers-reduced-motion:reduce){
+  body{animation:none}
+  *,*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
 </head>
 <body>
+<div id="bg" aria-hidden="true"></div>
+
 <div class="wrap">
-  <header>
-    <img src="img/sales-wed.png" alt="Sales Wed.">
-    <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">@saleswed_</a>
+  <header class="top">
+    <a class="mark" href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener" aria-label="Sales Wed. no Instagram"><img src="img/sales-wed.png" alt=""></a>
+    <svg class="word" viewBox="0 0 23 7" role="img" aria-label="Apps" shape-rendering="crispEdges" fill="currentColor"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="4" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="4" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="3" width="1" height="1"/><rect x="0" y="4" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="4" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="4" y="6" width="1" height="1"/><rect x="6" y="0" width="1" height="1"/><rect x="7" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="9" y="0" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/><rect x="10" y="1" width="1" height="1"/><rect x="6" y="2" width="1" height="1"/><rect x="10" y="2" width="1" height="1"/><rect x="6" y="3" width="1" height="1"/><rect x="7" y="3" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="9" y="3" width="1" height="1"/><rect x="6" y="4" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="6" y="6" width="1" height="1"/><rect x="12" y="0" width="1" height="1"/><rect x="13" y="0" width="1" height="1"/><rect x="14" y="0" width="1" height="1"/><rect x="15" y="0" width="1" height="1"/><rect x="12" y="1" width="1" height="1"/><rect x="16" y="1" width="1" height="1"/><rect x="12" y="2" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="12" y="3" width="1" height="1"/><rect x="13" y="3" width="1" height="1"/><rect x="14" y="3" width="1" height="1"/><rect x="15" y="3" width="1" height="1"/><rect x="12" y="4" width="1" height="1"/><rect x="12" y="5" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="19" y="0" width="1" height="1"/><rect x="20" y="0" width="1" height="1"/><rect x="21" y="0" width="1" height="1"/><rect x="22" y="0" width="1" height="1"/><rect x="18" y="1" width="1" height="1"/><rect x="18" y="2" width="1" height="1"/><rect x="19" y="3" width="1" height="1"/><rect x="20" y="3" width="1" height="1"/><rect x="21" y="3" width="1" height="1"/><rect x="22" y="4" width="1" height="1"/><rect x="22" y="5" width="1" height="1"/><rect x="18" y="6" width="1" height="1"/><rect x="19" y="6" width="1" height="1"/><rect x="20" y="6" width="1" height="1"/><rect x="21" y="6" width="1" height="1"/></svg>
+    <a class="insta" href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="17.3" cy="6.7" r="1.4" fill="currentColor"/></svg>
+      @saleswed_
+    </a>
   </header>
 
-  <h1>Ferramentas para quem fotografa e filma casamentos</h1>
-  <p class="lead">Programas que a Sales Wed. criou para o próprio fluxo de trabalho e deixa aqui para quem quiser usar.</p>
+  <section class="hero" aria-labelledby="t">
+    <h1 id="t">Ferramentas para quem <span class="stk r">fotografa</span> e <span class="stk b">filma</span> casamentos</h1>
+    <p class="lead">Programas que a Sales Wed. criou para o próprio fluxo de trabalho, do cartão de memória ao backup, e deixa aqui para quem quiser usar.</p>
+    <div class="panel" role="status" aria-live="polite">
+      <span class="n" id="count">0</span>
+      <span id="countTxt">arquivos copiados</span>
+      <span class="hint" id="hint">Clique nos arquivos que flutuam no fundo.</span>
+    </div>
+  </section>
 
-  <p class="label">Apps</p>
-  <ul class="apps">
-    <li class="app">
-      <a href="copio/">
-        <img src="img/copio-180.png" alt="">
-        <div>
-          <h2>Copiô</h2>
-          <p>Backup do cartão de memória sem sobrescrever nada: separa fotos, vídeos e áudios e põe a câmera e quem captou no nome de cada arquivo.</p>
-          <span class="os">Mac · Windows</span>
+  <section aria-labelledby="t-apps">
+    <h2 id="t-apps">Apps <span class="count">1</span></h2>
+    <div class="grid">
+      <article class="card app">
+        <div class="head">
+          <img class="icon" src="img/copio-180.png" alt="">
+          <div>
+            <h3>Copiô</h3>
+            <div class="tags"><span class="tag new">Novo</span><span class="tag">Mac</span><span class="tag">Windows</span><span class="tag">Sem internet</span></div>
+          </div>
         </div>
-        <span class="go">Ver e baixar</span>
-      </a>
-    </li>
-  </ul>
-  <p class="soon">Mais ferramentas em breve.</p>
+        <p>Backup do cartão de memória sem sobrescrever nada. Abre sozinho quando você conecta o cartão, separa fotos, vídeos e áudios e põe a câmera e quem captou no nome de cada arquivo.</p>
+        <div class="term" aria-label="Exemplo de arquivo renomeado pelo Copiô">
+          <span class="a">MVI_1000.MP4</span><br>
+          <span class="ok">✓</span> Sales/VIDEO/<span class="b">MVI_1000_CanonR8_Sales.MP4</span><span class="caret"></span>
+        </div>
+        <a class="btn" href="copio/">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0l-4.5-4.5M10 13l4.5-4.5M4 17h12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Ver e baixar
+        </a>
+      </article>
+
+      <article class="card soon" aria-label="Próximos apps">
+        <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+        <h3>Próximo app</h3>
+        <p>Mais ferramentas em breve. Siga <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener"><b>@saleswed_</b></a> para saber quando sair.</p>
+      </article>
+    </div>
+  </section>
 
   <footer>
-    <span>Sales Wed.</span>
-    <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">Instagram</a>
+    <span class="pill">Feito pela Sales Wed.</span>
+    <a class="pill" href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">Instagram</a>
   </footer>
 </div>
+
+<script>
+(function () {
+  var bg = document.getElementById('bg');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var FILES = [
+    ['MVI_1000.MP4','VIDEO'],['IMG_0001.CR3','FOTO'],['ZOOM0004.WAV','AUDIO'],['DSC_0412.ARW','FOTO'],
+    ['C0021.MP4','VIDEO'],['IMG_0002.CR3','FOTO'],['ZOOM0005.WAV','AUDIO'],['MVI_1001.MP4','VIDEO'],
+    ['DSC_0413.ARW','FOTO'],['C0022.MP4','VIDEO'],['IMG_0003.HEIC','FOTO'],['notas.xml','OUTROS'],
+    ['MVI_1002.MP4','VIDEO'],['IMG_0004.CR3','FOTO'],['ZOOM0006.WAV','AUDIO'],['DSC_0414.ARW','FOTO']
+  ];
+  var CAM = { FOTO:'CanonR8', VIDEO:'SonyFX30', AUDIO:'ZoomH6', OUTROS:'CanonR8' };
+  var ICON = {
+    FOTO:'<svg viewBox="0 0 12 12"><rect x="1" y="2.5" width="10" height="7.5" rx="1.5" fill="#fff" stroke="#17161A" stroke-width="1.4"/><circle cx="6" cy="6.2" r="1.8" fill="#17161A"/></svg>',
+    VIDEO:'<svg viewBox="0 0 12 12"><path d="M3.5 2.5v7l6-3.5z" fill="#fff" stroke="#17161A" stroke-width="1.3" stroke-linejoin="round"/></svg>',
+    AUDIO:'<svg viewBox="0 0 12 12"><g fill="#17161A"><rect x="1" y="5" width="2" height="3" rx="1"/><rect x="4" y="2.5" width="2" height="8" rx="1"/><rect x="7" y="4" width="2" height="5" rx="1"/><rect x="10" y="5.5" width="1.6" height="2.4" rx=".8"/></g></svg>',
+    OUTROS:'<svg viewBox="0 0 12 12"><path d="M3 1.5h4l2.5 2.5v6.5H3z" fill="#fff" stroke="#17161A" stroke-width="1.3" stroke-linejoin="round"/></svg>',
+    DONE:'<svg viewBox="0 0 12 12"><path d="M2.5 6.4l2.3 2.3L9.6 3.6" fill="none" stroke="#2F5FE0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+  var W = innerWidth, H = innerHeight, chips = [], copied = 0;
+  var ptr = { x: -9999, y: -9999 };
+
+  function renamed(name, type) {
+    var i = name.lastIndexOf('.');
+    return name.slice(0, i) + '_' + CAM[type] + '_Sales' + name.slice(i);
+  }
+  function setChip(c, done) {
+    c.done = done;
+    c.el.className = 'chip ' + c.type + (done ? ' done' : '') + (c.near ? ' near' : '');
+    c.el.innerHTML = '<i>' + (done ? ICON.DONE : ICON[c.type]) + '</i><span>' + (done ? renamed(c.name, c.type) : c.name) + '</span>';
+    c.w = c.el.offsetWidth; c.h = c.el.offsetHeight;
+  }
+  function make() {
+    bg.innerHTML = ''; chips = [];
+    var n = Math.max(8, Math.min(16, Math.round(W * H / 85000)));
+    for (var k = 0; k < n; k++) {
+      var f = FILES[k % FILES.length], el = document.createElement('div');
+      bg.appendChild(el);
+      var c = { el: el, name: f[0], type: f[1], x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - .5) * .25, vy: -(.18 + Math.random() * .32), r: (Math.random() - .5) * 14, vr: (Math.random() - .5) * .05,
+        px: 0, py: 0 };
+      setChip(c, false);
+      chips.push(c);
+      place(c);
+    }
+  }
+  function place(c) {
+    c.el.style.transform = 'translate3d(' + (c.x - c.w / 2 + c.px).toFixed(1) + 'px,' + (c.y - c.h / 2 + c.py).toFixed(1) + 'px,0) rotate(' + c.r.toFixed(2) + 'deg)';
+  }
+  var last = 0;
+  function tick(t) {
+    var dt = last ? Math.min(3, (t - last) / 16.7) : 1; last = t;
+    for (var i = 0; i < chips.length; i++) {
+      var c = chips[i];
+      c.x += c.vx * dt; c.y += c.vy * dt; c.r += c.vr * dt;
+      // o cursor empurra os arquivos com suavidade
+      var dx = c.x - ptr.x, dy = c.y - ptr.y, d = Math.sqrt(dx * dx + dy * dy), tx = 0, ty = 0;
+      if (d < 140 && d > 0.1) { var f = (140 - d) / 140 * 34; tx = dx / d * f; ty = dy / d * f; }
+      c.px += (tx - c.px) * .12 * dt; c.py += (ty - c.py) * .12 * dt;
+      var near = d < 170; if (near !== c.near) { c.near = near; c.el.classList.toggle('near', near); }
+      if (c.y < -60) { c.y = H + 50; c.x = Math.random() * W; if (c.done) setChip(c, false); }
+      if (c.x < -150) c.x = W + 140; else if (c.x > W + 150) c.x = -140;
+      place(c);
+    }
+    requestAnimationFrame(tick);
+  }
+  function burst(x, y) {
+    if (reduce) return;
+    var colors = ['#E2452F', '#2F5FE0', '#FFD9A0', '#FFFFFF'];
+    for (var k = 0; k < 9; k++) {
+      var s = document.createElement('div'); s.className = 'spark';
+      s.style.background = colors[k % 4];
+      bg.appendChild(s);
+      var a = Math.PI * 2 * k / 9 + Math.random() * .4, dist = 40 + Math.random() * 30;
+      s.animate([
+        { transform: 'translate(' + x + 'px,' + y + 'px) rotate(0deg)', opacity: 1 },
+        { transform: 'translate(' + (x + Math.cos(a) * dist) + 'px,' + (y + Math.sin(a) * dist) + 'px) rotate(' + (Math.random() * 180) + 'deg)', opacity: 0 }
+      ], { duration: 650, easing: 'cubic-bezier(.16,1,.3,1)' }).onfinish = (function (el) { return function () { el.remove(); }; })(s);
+    }
+  }
+  function copy(c) {
+    if (c.done) return;
+    setChip(c, true);
+    c.el.classList.remove('pop'); void c.el.offsetWidth; c.el.classList.add('pop');
+    burst(c.x + c.px, c.y + c.py);
+    copied++;
+    var n = document.getElementById('count');
+    n.textContent = copied; n.classList.remove('bump'); void n.offsetWidth; n.classList.add('bump');
+    document.getElementById('countTxt').textContent = copied === 1 ? 'arquivo copiado' : 'arquivos copiados';
+    var hint = document.getElementById('hint');
+    hint.textContent = copied >= 10 ? 'Cartão inteiro no backup. Pode formatar com calma.' :
+      copied >= 3 ? 'Sem sobrescrever nenhum.' : 'Clique nos arquivos que flutuam no fundo.';
+  }
+  document.addEventListener('pointermove', function (e) { ptr.x = e.clientX; ptr.y = e.clientY; }, { passive: true });
+  document.addEventListener('pointerleave', function () { ptr.x = ptr.y = -9999; });
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t && t.closest && t.closest('a,button,.card,.panel,.stk,.mark')) return;
+    var best = null, bd = 1e9;
+    for (var i = 0; i < chips.length; i++) {
+      var c = chips[i], cx = c.x + c.px, cy = c.y + c.py;
+      var inside = Math.abs(e.clientX - cx) < c.w / 2 + 14 && Math.abs(e.clientY - cy) < c.h / 2 + 14;
+      var d = Math.hypot(e.clientX - cx, e.clientY - cy);
+      if (inside && d < bd) { bd = d; best = c; }
+    }
+    if (best) copy(best);
+  });
+  var rt;
+  addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { W = innerWidth; H = innerHeight; make(); }, 200); });
+  make();
+  if (!reduce) requestAnimationFrame(tick);
+})();
+</script>
 </body>
 </html>
