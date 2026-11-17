@@ -119,11 +119,25 @@ h2 .count{font-family:var(--mono);font-size:14px;background:var(--white);border:
 .dots span:nth-child(3){background:var(--gold);animation-delay:.36s}
 @keyframes hop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-10px)}}
 
+/* sistema WeddingFlow */
+.sys{margin-top:46px}
+.card.wf{background:#1c1c1c;color:#F3EDE1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:22px;padding:24px 26px}
+.card.wf:hover{transform:translate(-3px,-3px);box-shadow:10px 10px 0 var(--ink)}
+.card.wf .icon{width:96px;height:96px;border-radius:22px;border:var(--bw) solid #d4af5f}
+.card.wf:hover .icon{transform:rotate(-8deg) scale(1.06)}
+.card.wf h3{color:#d4af5f}
+.card.wf p{color:#E6DFD2}
+.card.wf .tag{background:transparent;color:#F3EDE1;border-color:#6E6656}
+.card.wf .tag.gold{background:#d4af5f;color:#1c1c1c;border-color:#d4af5f}
+.card.wf .free{font-size:13px;color:#BFB5A3;margin-top:6px}
+.btn.gold{background:#d4af5f;color:#1c1c1c;align-self:center;margin-top:0;white-space:nowrap}
 footer{margin-top:52px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;font-size:14px;font-weight:600}
 footer .pill{background:var(--white);border:2px solid var(--ink);border-radius:99px;padding:4px 12px;pointer-events:auto}
 
 @media (max-width:760px){
   .grid{grid-template-columns:minmax(0,1fr)}
+  .card.wf{grid-template-columns:minmax(0,1fr);justify-items:start}
+  .card.wf .icon{width:76px;height:76px}
   .hero{margin:36px 0 34px}
   .card .icon{width:72px;height:72px}
   .card h3{font-size:30px}
@@ -191,6 +205,23 @@ footer .pill{background:var(--white);border:2px solid var(--ink);border-radius:9
         <p>Mais ferramentas em breve. Siga <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener"><b>@saleswed_</b></a> para saber quando sair.</p>
       </article>
     </div>
+  </section>
+
+  <section class="sys" aria-labelledby="t-sys">
+    <h2 id="t-sys">O sistema</h2>
+    <article class="card app wf">
+      <img class="icon" src="img/weddingflow.svg" alt="">
+      <div>
+        <h3>WeddingFlow</h3>
+        <div class="tags" style="margin-bottom:12px"><span class="tag gold">Gestão do estúdio</span><span class="tag">Clientes</span><span class="tag">Contratos</span><span class="tag">Finanças</span><span class="tag">Entregas</span><span class="tag">Equipe</span></div>
+        <p>Gestão de clientes, contratos, finanças e entregas para fotógrafos e filmmakers. Clientes, parcelas, prazos e equipe num só lugar, do contrato à entrega.</p>
+        <p class="free">Teste grátis por 7 dias, sem cartão.</p>
+      </div>
+      <a class="btn gold" href="https://weddingflow.com.br/" target="_blank" rel="noopener">
+        Conhecer o WeddingFlow
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10h10m0 0l-4.5-4.5M15 10l-4.5 4.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </article>
   </section>
 
   <footer>
