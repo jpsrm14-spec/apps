@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Apps · Sales Wed.</title>
+<meta name="description" content="Ferramentas para quem fotografa e filma casamentos, feitas pela Sales Wed.">
+<meta property="og:title" content="Apps · Sales Wed.">
+<meta property="og:description" content="Ferramentas para quem fotografa e filma casamentos.">
+<meta property="og:image" content="https://apps.weddingflow.com.br/img/sales-wed.png">
+<link rel="icon" href="img/sales-wed.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Jost:wght@400;500&display=swap">
+<style>
+/* Layout: coluna editorial alinhada à esquerda; os apps em lista com fios finos, cada um com seu ícone. */
+:root{--ivory:#F5F1EB;--ink:#24201C;--night:#161412;--soft:#6B6259;--rule:#D9D0C3;
+  --serif:"Cormorant Garamond","Iowan Old Style",Georgia,serif;--sans:"Jost","Avenir Next","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ivory);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;
+  padding-left:max(20px, env(safe-area-inset-left, 0px));padding-right:max(20px, env(safe-area-inset-right, 0px))}
+::selection{background:var(--ink);color:var(--ivory)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.wrap{max-width:880px;margin:0 auto;padding-block:40px 64px}
+header{display:flex;align-items:center;gap:16px;padding-bottom:28px;border-bottom:1px solid var(--ink)}
+header img{height:64px;width:auto}
+header a{margin-left:auto;font-size:13px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:var(--soft)}
+header a:hover{color:var(--ink)}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(40px,6.4vw,68px);line-height:1.04;letter-spacing:-.01em;margin:56px 0 18px;max-width:14ch;text-wrap:balance}
+.lead{max-width:36em;color:var(--soft);margin:0 0 56px;font-size:18px}
+.label{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft);margin:0 0 4px}
+.apps{list-style:none;margin:0;padding:0;border-top:1px solid var(--ink)}
+.app{border-bottom:1px solid var(--rule)}
+.app a{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:22px;align-items:center;padding:26px 0;text-decoration:none}
+.app img{width:72px;height:72px}
+.app h2{font-family:var(--serif);font-weight:600;font-size:34px;line-height:1.1;margin:0 0 4px}
+.app p{margin:0;color:var(--soft);font-size:16px;max-width:40em}
+.app .os{display:block;margin-top:6px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
+.app .go{font-size:15px;white-space:nowrap;border-bottom:1px solid var(--ink);padding-bottom:2px}
+.app a:hover .go{color:var(--soft);border-color:var(--soft)}
+.app a:hover h2{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+.soon{padding:22px 0;color:var(--soft);font-size:15px;border-bottom:1px solid var(--rule)}
+footer{margin-top:56px;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:var(--soft)}
+footer a{color:var(--ink)}
+@media (max-width:560px){
+  .app a{grid-template-columns:56px minmax(0,1fr);gap:16px}
+  .app img{width:56px;height:56px}
+  .app .go{grid-column:2}
+  header img{height:52px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="img/sales-wed.png" alt="Sales Wed.">
+    <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">@saleswed_</a>
+  </header>
+
+  <h1>Ferramentas para quem fotografa e filma casamentos</h1>
+  <p class="lead">Programas que a Sales Wed. criou para o próprio fluxo de trabalho e deixa aqui para quem quiser usar.</p>
+
+  <p class="label">Apps</p>
+  <ul class="apps">
+    <li class="app">
+      <a href="copio/">
+        <img src="img/copio-180.png" alt="">
+        <div>
+          <h2>Copiô</h2>
+          <p>Backup do cartão de memória sem sobrescrever nada: separa fotos, vídeos e áudios e põe a câmera e quem captou no nome de cada arquivo.</p>
+          <span class="os">Mac · Windows</span>
+        </div>
+        <span class="go">Ver e baixar</span>
+      </a>
+    </li>
+  </ul>
+  <p class="soon">Mais ferramentas em breve.</p>
+
+  <footer>
+    <span>Sales Wed.</span>
+    <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">Instagram</a>
+  </footer>
+</div>
+</body>
+</html>

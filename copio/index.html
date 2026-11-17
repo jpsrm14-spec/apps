@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Copiô · backup de cartão de memória</title>
+<meta name="description" content="Backup do cartão de memória sem sobrescrever nada. Para Mac e Windows, por Sales Wed.">
+<meta property="og:title" content="Copiô">
+<meta property="og:description" content="Backup do cartão de memória sem sobrescrever nada. Para Mac e Windows.">
+<meta property="og:image" content="https://apps.weddingflow.com.br/img/copio-512.png">
+<link rel="icon" href="../img/copio-64.png">
+<link rel="apple-touch-icon" href="../img/copio-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: marca no topo, o renomear do cartão como abertura, dois cartões de download (Mac e Windows, o do visitante em destaque),
+   e o que o app faz ao lado da árvore de pastas. Tema único e claro, nas cores da marca Copiô. */
+:root{
+  --cream:#F1EADD; --paper:#FBF7EF; --white:#FFFFFF; --ink:#17161A; --soft:#5A554E; --line:#D8CEBC;
+  --red:#E2452F; --blue:#2F5FE0; --blue-ink:#FFFFFF; --gold:#FFD9A0;
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Inter",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --bw:3px; --r:16px; --sh:5px 5px 0 var(--ink);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+::selection{background:var(--blue);color:var(--blue-ink)}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1040px;margin:0 auto;padding-block:24px 56px;display:grid;gap:56px}
+
+/* topo */
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top .logo{width:52px;height:52px;flex-shrink:0}
+.wordmark{height:30px;width:auto;display:block}
+.top .by{margin-left:auto;font-size:15px;color:var(--soft);text-decoration:none;padding:6px 10px;border-radius:10px}
+.top .by b{color:var(--ink);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--red)}
+.top .by:hover{background:var(--paper)}
+
+/* abertura */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:center}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.6vw,60px);line-height:1.02;letter-spacing:-.025em;margin:0 0 18px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--red)}
+.lead{font-size:18px;max-width:34em;margin:0 0 26px;color:#2C2A28}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.note-sm{font-size:14px;color:var(--soft)}
+.rename{background:var(--ink);color:var(--cream);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:6px 6px 0 var(--red);
+  padding:20px 20px 18px;font-family:var(--mono);font-size:14px;display:grid;gap:16px;min-width:0}
+.rename .lbl{font-family:var(--body);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#B9B2A6;font-weight:600}
+.rename .pair{display:grid;gap:6px;min-width:0}
+.rename .from{color:#B9B2A6;overflow-wrap:anywhere}
+.rename .to{color:var(--cream);overflow-wrap:anywhere}
+.rename .to b{color:var(--gold);font-weight:600}
+.rename .to i{font-style:normal;background:var(--red);color:var(--white);padding:0 4px;border-radius:4px}
+.rename .arrow{color:var(--red);font-weight:600;margin-right:6px}
+.rename hr{border:0;border-top:1px dashed #4A4640;margin:0}
+
+/* botoes */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--blue);color:var(--blue-ink);
+  border:var(--bw) solid var(--ink);border-radius:14px;box-shadow:var(--sh);padding:14px 22px;font-family:var(--body);font-weight:700;
+  font-size:17px;text-decoration:none;transition:transform .1s,box-shadow .1s;cursor:pointer}
+.btn svg{width:20px;height:20px;flex-shrink:0}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+.btn.ghost{background:var(--paper);color:var(--ink)}
+.btn[aria-disabled="true"]{background:var(--line);color:var(--soft);border-color:#9B9486;box-shadow:none;cursor:not-allowed;transform:none}
+
+/* download */
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);letter-spacing:-.02em;line-height:1.1;margin:0 0 8px;text-wrap:balance}
+.sub{margin:0 0 22px;color:var(--soft);max-width:44em}
+.phone{background:var(--paper);border:var(--bw) solid var(--ink);border-radius:var(--r);padding:14px 16px;margin:0 0 20px;font-weight:600}
+.os-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
+.os{background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;min-width:0}
+.os.mine{box-shadow:7px 7px 0 var(--red)}
+.os.mine{order:-1}
+.os-head{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:var(--bw) solid var(--ink);background:var(--paper)}
+.os-head h3{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.015em;margin:0}
+.os-head svg{width:34px;height:34px;flex-shrink:0}
+.mine-tag{margin-left:auto;background:var(--red);color:var(--white);border:2px solid var(--ink);border-radius:99px;font-size:13px;font-weight:700;padding:2px 11px;white-space:nowrap}
+.os-body{padding:20px;display:grid;gap:16px}
+.req{margin:0;font-size:15px;color:var(--soft)}
+.dlrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.file{font-family:var(--mono);font-size:13px;color:var(--soft)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{position:relative;padding-left:42px;min-height:28px;counter-increment:s;font-size:15px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:28px;height:28px;border-radius:8px;background:var(--ink);color:var(--cream);
+  font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.steps li.warn::before{background:var(--red);color:var(--white)}
+.steps b{font-weight:700}
+.path{font-family:var(--mono);font-size:13.5px;background:var(--cream);border-radius:6px;padding:1px 6px;white-space:nowrap}
+.why{margin:22px 0 0;font-size:14px;color:var(--soft);max-width:52em}
+
+/* o que faz */
+.what{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:40px;align-items:start}
+.feats{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:2px solid var(--ink)}
+.feats li{padding:14px 0;border-bottom:1px solid var(--line);display:grid;gap:2px}
+.feats b{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.01em}
+.feats span{color:var(--soft);font-size:15px}
+.tree{background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:18px 18px 16px;min-width:0}
+.tree .cap{font-size:13px;color:var(--soft);margin:0 0 10px}
+.tree pre{margin:0;font-family:var(--mono);font-size:13px;line-height:1.75;overflow-x:auto;color:var(--ink)}
+.tree .d{font-weight:600}
+.tree .p{color:var(--blue);font-weight:600}
+.tree .f{color:var(--soft)}
+.tree .k{color:var(--red);font-weight:600}
+
+footer{border-top:2px solid var(--ink);padding-top:18px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-size:14px;color:var(--soft)}
+footer a{color:var(--ink);font-weight:600;text-underline-offset:3px}
+footer .sp{margin-left:auto}
+
+@media (max-width:820px){
+  .hero,.what{grid-template-columns:minmax(0,1fr)}
+  .os-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:480px){
+  .wordmark{height:24px}
+  .top .logo{width:44px;height:44px}
+  .btn{width:100%}
+  .os-head h3{font-size:22px}
+  footer .sp{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <svg class="logo" viewBox="14 14 228 228" aria-hidden="true"><rect x="26" y="26" width="204" height="204" rx="52" fill="#F1EADD" stroke="#17161A" stroke-width="9"/><path d="M100,80 L127,57 L154,80" fill="none" stroke="#17161A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><path d="M99,105 H153 L179,131 V193 Q179,203 169,203 H99 Q89,203 89,193 V115 Q89,105 99,105 Z" fill="#17161A" stroke="#17161A" stroke-width="9" stroke-linejoin="round"/><path d="M92,98 H146 L172,124 V186 Q172,196 162,196 H92 Q82,196 82,186 V108 Q82,98 92,98 Z" fill="#E2452F" stroke="#17161A" stroke-width="9" stroke-linejoin="round"/><rect x="96" y="112" width="8" height="20" rx="4" fill="#F1EADD"/><rect x="110" y="112" width="8" height="20" rx="4" fill="#F1EADD"/><rect x="124" y="112" width="8" height="20" rx="4" fill="#F1EADD"/><rect x="138" y="112" width="8" height="20" rx="4" fill="#F1EADD"/><path d="M104,152 L120,168 L150,134" fill="none" stroke="#17161A" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><path d="M104,152 L120,168 L150,134" fill="none" stroke="#F1EADD" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <svg class="wordmark" viewBox="0 -3 29 10" role="img" aria-label="Copiô" shape-rendering="crispEdges" fill="currentColor"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="4" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="0" y="3" width="1" height="1"/><rect x="0" y="4" width="1" height="1"/><rect x="0" y="5" width="1" height="1"/><rect x="4" y="5" width="1" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="7" y="0" width="1" height="1"/><rect x="8" y="0" width="1" height="1"/><rect x="9" y="0" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/><rect x="10" y="1" width="1" height="1"/><rect x="6" y="2" width="1" height="1"/><rect x="10" y="2" width="1" height="1"/><rect x="6" y="3" width="1" height="1"/><rect x="10" y="3" width="1" height="1"/><rect x="6" y="4" width="1" height="1"/><rect x="10" y="4" width="1" height="1"/><rect x="6" y="5" width="1" height="1"/><rect x="10" y="5" width="1" height="1"/><rect x="7" y="6" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="9" y="6" width="1" height="1"/><rect x="12" y="0" width="1" height="1"/><rect x="13" y="0" width="1" height="1"/><rect x="14" y="0" width="1" height="1"/><rect x="15" y="0" width="1" height="1"/><rect x="12" y="1" width="1" height="1"/><rect x="16" y="1" width="1" height="1"/><rect x="12" y="2" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="12" y="3" width="1" height="1"/><rect x="13" y="3" width="1" height="1"/><rect x="14" y="3" width="1" height="1"/><rect x="15" y="3" width="1" height="1"/><rect x="12" y="4" width="1" height="1"/><rect x="12" y="5" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="19" y="0" width="1" height="1"/><rect x="20" y="0" width="1" height="1"/><rect x="21" y="0" width="1" height="1"/><rect x="20" y="1" width="1" height="1"/><rect x="20" y="2" width="1" height="1"/><rect x="20" y="3" width="1" height="1"/><rect x="20" y="4" width="1" height="1"/><rect x="20" y="5" width="1" height="1"/><rect x="19" y="6" width="1" height="1"/><rect x="20" y="6" width="1" height="1"/><rect x="21" y="6" width="1" height="1"/><rect x="25" y="0" width="1" height="1"/><rect x="26" y="0" width="1" height="1"/><rect x="27" y="0" width="1" height="1"/><rect x="24" y="1" width="1" height="1"/><rect x="28" y="1" width="1" height="1"/><rect x="24" y="2" width="1" height="1"/><rect x="28" y="2" width="1" height="1"/><rect x="24" y="3" width="1" height="1"/><rect x="28" y="3" width="1" height="1"/><rect x="24" y="4" width="1" height="1"/><rect x="28" y="4" width="1" height="1"/><rect x="24" y="5" width="1" height="1"/><rect x="28" y="5" width="1" height="1"/><rect x="25" y="6" width="1" height="1"/><rect x="26" y="6" width="1" height="1"/><rect x="27" y="6" width="1" height="1"/><rect x="26" y="-3" width="1" height="1"/><rect x="25" y="-2" width="1" height="1"/><rect x="27" y="-2" width="1" height="1"/></svg>
+    <a class="by" href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">por <b>Sales Wed.</b></a>
+  </header>
+
+  <section class="hero" aria-labelledby="t-hero">
+    <div>
+      <h1 id="t-hero">Backup do cartão de memória <em>sem sobrescrever nada</em>.</h1>
+      <p class="lead">Coloque o cartão e o Copiô abre sozinho. Ele separa fotos, vídeos e áudios, põe a câmera e quem captou no nome de cada arquivo e confere cada cópia com o original antes de dizer que terminou.</p>
+      <div class="cta">
+        <a class="btn" id="hero-btn" href="#baixar">Baixar o Copiô</a>
+        <span class="note-sm">Para Mac e Windows. Funciona sem internet.</span>
+      </div>
+    </div>
+    <div class="rename" aria-label="Exemplo de como os arquivos são renomeados">
+      <div class="lbl">Como o arquivo é salvo</div>
+      <div class="pair">
+        <div class="from">MVI_1000.MP4</div>
+        <div class="to"><span class="arrow">→</span>Sales / VIDEO / <b>MVI_1000_CanonR8_Sales.MP4</b></div>
+      </div>
+      <hr>
+      <div class="lbl">Outro cartão com o mesmo nome</div>
+      <div class="pair">
+        <div class="from">IMG_0001.CR3</div>
+        <div class="to"><span class="arrow">→</span>Sales / FOTO / <b>IMG_0001_CanonR8_Sales<i>_2</i>.CR3</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="baixar" aria-labelledby="t-dl">
+    <h2 id="t-dl">Baixar</h2>
+    <p class="sub" id="detect">Escolha o seu sistema. A instalação leva menos de um minuto.</p>
+    <p class="phone" id="phone" hidden>O Copiô é um programa para computador. Abra este mesmo link no seu Mac ou PC para baixar.</p>
+
+    <div class="os-grid">
+      <article class="os" id="os-mac" aria-labelledby="t-mac">
+        <div class="os-head">
+          <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="6" width="24" height="16" rx="3" fill="#F1EADD" stroke="#17161A" stroke-width="2.5"/><path d="M2 25h30l-2 4H4z" fill="#E2452F" stroke="#17161A" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <h3 id="t-mac">Mac</h3>
+          <span class="mine-tag" hidden>Seu sistema</span>
+        </div>
+        <div class="os-body">
+          <p class="req">macOS 11 ou mais novo. Funciona em Macs com Apple Silicon e com Intel.</p>
+          <div class="dlrow">
+            <a class="btn" data-os="mac" href="#baixar">Baixar para Mac</a>
+            <span class="file">Copio.dmg · 45 MB</span>
+          </div>
+          <ol class="steps">
+            <li>Abra o <span class="path">Copio.dmg</span> e arraste o Copiô para a pasta <b>Aplicativos</b>.</li>
+            <li>Abra o Copiô pelo Launchpad ou pela pasta Aplicativos.</li>
+            <li class="warn"><span>Na primeira vez o macOS avisa que não conseguiu verificar o app. Vá em <span class="path">Ajustes do Sistema › Privacidade e Segurança</span>, desça até Segurança e clique em <b>Abrir Mesmo Assim</b>. Só precisa fazer isso uma vez.</span></li>
+            <li>Conecte um cartão de memória: o Copiô abre sozinho. Quando o macOS pedir acesso ao cartão, clique em <b>Permitir</b>.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="os" id="os-win" aria-labelledby="t-win">
+        <div class="os-head">
+          <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="4" width="28" height="19" rx="3" fill="#F1EADD" stroke="#17161A" stroke-width="2.5"/><path d="M13 23l-1 5h10l-1-5" fill="none" stroke="#17161A" stroke-width="2.5" stroke-linejoin="round"/><path d="M9 28h16" stroke="#17161A" stroke-width="2.5" stroke-linecap="round"/><rect x="8" y="9" width="8" height="9" rx="1.5" fill="#2F5FE0"/></svg>
+          <h3 id="t-win">Windows</h3>
+          <span class="mine-tag" hidden>Seu sistema</span>
+        </div>
+        <div class="os-body">
+          <p class="req">Windows 10 ou 11.</p>
+          <div class="dlrow">
+            <a class="btn" data-os="win" href="#baixar">Baixar para Windows</a>
+            <span class="file">Copio-Windows.zip · 74 KB</span>
+          </div>
+          <ol class="steps">
+            <li>Abra o <span class="path">Copio-Windows.zip</span> e dê dois cliques em <span class="path">Copio.exe</span>.</li>
+            <li class="warn"><span>Se aparecer <b>“O Windows protegeu o computador”</b>, clique em <b>Mais informações</b> e depois em <b>Executar assim mesmo</b>.</span></li>
+            <li>Na pergunta “Instalar o Copiô neste computador?”, clique em <b>Sim</b>. Ele fica no Menu Iniciar e com um ícone perto do relógio.</li>
+            <li>Conecte um cartão de memória: o Copiô abre sozinho.</li>
+          </ol>
+        </div>
+      </article>
+    </div>
+    <p class="why">Os avisos dos passos em vermelho aparecem porque o Copiô ainda não tem assinatura digital da Apple e da Microsoft. Para remover o programa: no Mac, arraste o Copiô para o Lixo; no Windows, use “Desinstalar Copiô” no Menu Iniciar. Os backups feitos não são apagados.</p>
+  </section>
+
+  <section class="what" aria-labelledby="t-what">
+    <div>
+      <h2 id="t-what">O que ele faz</h2>
+      <p class="sub">Pensado para o dia de casamento, com mais de uma pessoa captando e vários cartões por pessoa.</p>
+      <ul class="feats">
+        <li><b>Abre sozinho com o cartão</b><span>Conectou o cartão no leitor, a janela aparece com tudo o que tem nele.</span></li>
+        <li><b>Você escolhe o que copiar</b><span>Fotos, vídeos, áudios e outros, por tipo e por data: tudo, só hoje ou a partir de um dia.</span></li>
+        <li><b>Nome com câmera e profissional</b><span>Cada arquivo leva a câmera e quem captou, e a câmera é reconhecida sozinha na maioria dos casos.</span></li>
+        <li><b>Nunca sobrescreve</b><span>Nome repetido vira _2. O que já foi copiado é reconhecido e não se repete.</span></li>
+        <li><b>Cópia conferida</b><span>Cada arquivo é relido e comparado com o original. Só aparece “Backup completo” quando tudo bate.</span></li>
+        <li><b>Ouça antes de copiar</b><span>O cartão do gravador costuma ter áudios de outros dias: dá para ouvir e marcar só os do evento.</span></li>
+      </ul>
+    </div>
+    <div class="tree">
+      <p class="cap">Exemplo de pasta de um evento com duas pessoas captando</p>
+<pre><span class="d">Casamento Ana e Léo/</span>
+├─ <span class="p">Sales/</span>
+│  ├─ FOTO/   <span class="f">IMG_0001_CanonR8_Sales.CR3</span>
+│  │          <span class="f">IMG_0001_CanonR8_Sales</span><span class="k">_2</span><span class="f">.CR3</span>
+│  ├─ VIDEO/  <span class="f">MVI_1000_CanonR8_Sales.MP4</span>
+│  └─ AUDIO/  <span class="f">ZOOM0004_ZoomH6_Sales.WAV</span>
+├─ <span class="p">Clis/</span>
+│  ├─ FOTO/   <span class="f">DSC_0412_SonyA7IV_Clis.ARW</span>
+│  └─ VIDEO/  <span class="f">C0021_SonyFX30_Clis.MP4</span>
+└─ _RELATORIOS_BACKUP/</pre>
+    </div>
+  </section>
+
+  <footer>
+    <span>Copiô 1.0</span>
+    <span>Feito por <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">Sales Wed.</a> · @saleswed_</span>
+    <a class="sp" href="../">Outros apps da Sales Wed.</a>
+  </footer>
+</div>
+
+<script>
+// Links dos arquivos de instalação. Vazio = botão mostra "Download em breve".
+var DOWNLOADS = {
+  mac: "https://github.com/jpsrm14-spec/copio/releases/latest/download/Copio.dmg",
+  win: "https://github.com/jpsrm14-spec/copio/releases/latest/download/Copio-Windows.zip"
+};
+
+(function () {
+  var ARROW = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0l-4.5-4.5M10 13l4.5-4.5M4 17h12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.querySelectorAll('[data-os]').forEach(function (a) {
+    var url = DOWNLOADS[a.getAttribute('data-os')];
+    if (url) {
+      a.href = url; a.target = '_blank'; a.rel = 'noopener';
+      a.innerHTML = ARROW + a.textContent;
+    } else {
+      a.removeAttribute('href'); a.setAttribute('aria-disabled', 'true'); a.setAttribute('role', 'link');
+      a.textContent = 'Download em breve';
+    }
+  });
+
+  // Qual sistema o visitante usa (o link pode forçar: #mac ou #windows)
+  var ua = navigator.userAgent || '';
+  var pf = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+  var touch = (navigator.maxTouchPoints || 0) > 1;
+  var os = '';
+  if (/Android|iPhone|iPod|iPad/i.test(ua) || (/Mac/i.test(pf + ua) && touch)) os = 'phone';
+  else if (/Mac/i.test(pf + ua)) os = 'mac';
+  else if (/Win/i.test(pf + ua)) os = 'win';
+
+  function apply() {
+    var h = (location.hash || '').replace('#', '');
+    var pick = h === 'mac' ? 'mac' : h === 'windows' ? 'win' : os;
+    var names = { mac: 'Mac', win: 'Windows' };
+    ['mac', 'win'].forEach(function (k) {
+      var card = document.getElementById('os-' + k), mine = pick === k;
+      card.classList.toggle('mine', mine);
+      card.querySelector('.mine-tag').hidden = !mine;
+    });
+    document.getElementById('phone').hidden = os !== 'phone';
+    var hero = document.getElementById('hero-btn');
+    if (pick === 'mac' || pick === 'win') {
+      document.getElementById('detect').textContent = (h ? 'Mostrando primeiro a versão para ' : 'Você está num ') +
+        names[pick] + (h ? '.' : ': a versão certa já está em destaque. A instalação leva menos de um minuto.');
+      hero.textContent = 'Baixar para ' + names[pick];
+      hero.href = '#' + (pick === 'mac' ? 'mac' : 'windows');
+    }
+  }
+  apply();
+  window.addEventListener('hashchange', function () {
+    apply();
+    var el = document.getElementById('baixar');
+    if (el && /^#(mac|windows)$/.test(location.hash)) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
+</script>
+
+</body>
+</html>
