@@ -175,6 +175,10 @@ footer .sp{margin-left:auto}
 .who i{width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:800;color:#fff}
 .who b{font-family:var(--display);font-weight:800}
 @media (max-width:820px){.sde{grid-template-columns:minmax(0,1fr);padding:22px 18px}}
+.rv{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px;align-items:center;background:var(--white);border:var(--bw) solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--blue);padding:32px}
+.rv h2 em{font-style:normal;color:var(--blue)}
+.badge.blue{background:var(--blue)}
+@media (max-width:820px){.rv{grid-template-columns:minmax(0,1fr);padding:22px 18px}}
 </style>
 </head>
 <body>
@@ -306,12 +310,32 @@ footer .sp{margin-left:auto}
     </div>
   </section>
 
+  <section class="rv" id="resolve" aria-labelledby="t-rv">
+    <div>
+      <span class="badge blue">Novo · Beta</span>
+      <h2 id="t-rv">Também para <em>DaVinci Resolve</em>.</h2>
+      <p class="sub">A mesma ideia no Resolve: o que você importa de fora vai para a pasta do projeto, na gaveta certa, e é religado. Tem Verificar projeto e Same Day Edit. Abre pelo menu <span class="path">Workspace › Scripts › Sync Box</span>.</p>
+      <div class="dlrow">
+        <a class="btn" data-os="rmac" href="#resolve">Resolve para Mac</a>
+        <a class="btn ghost" data-os="rwin" href="#resolve">Resolve para Windows</a>
+      </div>
+      <p class="file" style="margin-top:10px">SyncBox-Resolve-Mac.zip · SyncBox-Resolve-Windows.zip · 10 KB</p>
+    </div>
+    <ol class="steps">
+      <li>Abra o zip e dê dois cliques em <span class="path">Instalar Sync Box</span> (no Mac, o mesmo aviso de segurança do plugin do Premiere pode aparecer).</li>
+      <li>No Resolve, vá em <span class="path">Workspace › Scripts › Sync Box</span>.</li>
+      <li>Na primeira vez, clique em <b>Escolher pasta do projeto</b>: o Resolve guarda o projeto no banco de dados, então o Sync Box precisa saber qual é a pasta dele no HD.</li>
+      <li class="warn"><span>O Resolve precisa do <b>Python 3</b> (64 bits) instalado para rodar scripts. Se o Sync Box não abrir, instale pelo <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a> e abra o Resolve de novo.</span></li>
+    </ol>
+  </section>
+
   <section class="what" aria-labelledby="t-what">
     <div>
       <h2 id="t-what">O que ele faz</h2>
       <p class="sub">Você continua editando do mesmo jeito. O Sync Box cuida da bagunça de arquivos por trás, nos projetos novos e nos que já estavam em andamento.</p>
       <ul class="feats">
         <li><b>Verifica o projeto inteiro</b><span>Instalou agora num projeto que já estava andando? Ao abrir, ele confere todos os arquivos usados, mostra quais estão fora da pasta e traz tudo com um clique. Também confere quando você religa o plugin, e tem o botão Verificar projeto.</span></li>
+        <li><b>Premiere e DaVinci Resolve</b><span>Plugin no Premiere Pro e script no DaVinci Resolve (beta), com as mesmas gavetas, Verificar projeto e Same Day Edit.</span></li>
         <li><b>Same Day Edit</b><span>Vigia a pasta do dia: cada vídeo novo da equipe entra direto no projeto, separado por pessoa, sem duplicar.</span></li>
         <li><b>Percebe sozinho</b><span>Importou ou arrastou um arquivo de fora da pasta do projeto? Em dois segundos ele já foi guardado.</span></li>
         <li><b>Cada coisa na sua gaveta</b><span>Músicas, efeitos sonoros, vídeos, imagens e gráficos, cada tipo na sua pasta, criada na hora.</span></li>
@@ -355,7 +379,9 @@ footer .sp{margin-left:auto}
 // Links dos arquivos de instalação. Vazio = botão mostra "Download em breve".
 var DOWNLOADS = {
   mac: "https://github.com/jpsrm14-spec/syncbox/releases/latest/download/SyncBox-Mac.zip",
-  win: "https://github.com/jpsrm14-spec/syncbox/releases/latest/download/SyncBox-Windows.zip"
+  win: "https://github.com/jpsrm14-spec/syncbox/releases/latest/download/SyncBox-Windows.zip",
+  rmac: "https://github.com/jpsrm14-spec/syncbox/releases/latest/download/SyncBox-Resolve-Mac.zip",
+  rwin: "https://github.com/jpsrm14-spec/syncbox/releases/latest/download/SyncBox-Resolve-Windows.zip"
 };
 
 (function () {
