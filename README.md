@@ -1,6 +1,6 @@
-# Apps · Sales Wed.
+# Criô · Apps (@crio.apps)
 
-Site em https://apps.weddingflow.com.br com as ferramentas da Sales Wed. para fotógrafos e filmmakers.
+Site em https://apps.weddingflow.com.br com as ferramentas do Criô (@crio.apps) para fotógrafos e filmmakers.
 
 - `index.html`: lista de apps
 - `copio/`: página do [Copiô](https://github.com/jpsrm14-spec/copio) (os instaladores ficam nas versões do repositório do app)

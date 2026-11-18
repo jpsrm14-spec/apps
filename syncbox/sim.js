@@ -115,7 +115,7 @@
         '<div class="head"></div>' +
       '</div>' +
       '<div id="sb">' +
-        '<div class="sbh">' + LOGO + '<b>Sync Box</b><small>por<br><b style="font:700 10px system-ui">Sales Wed.</b></small></div>' +
+        '<div class="sbh">' + LOGO + '<b>Sync Box</b><small>por<br><b style="font:700 10px system-ui">Criô</b></small></div>' +
         '<div class="sbc blue"><div class="st"><span class="dt" id="dt"></span><span id="stt">Sincronizando</span><span class="tg on"></span></div>' +
           '<div class="drw"><div>' + NOTE + '<b id="n-mu">0</b>MÚSICAS</div><div>' + PLAYI + '<b id="n-vi">0</b>VÍDEOS</div><div>' + WAVE + '<b id="n-ef">0</b>EFEITOS</div></div>' +
           '<div class="vb" id="verify">Verificar projeto</div></div>' +

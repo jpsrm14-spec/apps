@@ -45,7 +45,7 @@
     '</style>';
 
   var html = css + '<div class="bx">' +
-    '<div class="bxh">' + LOGO + '<b>BAIXÔ</b><span class="aj">Ajustes</span><small>por <b>Sales Wed.</b></small></div>' +
+    '<div class="bxh">' + LOGO + '<b>BAIXÔ</b><span class="aj">Ajustes</span><small>por <b>Criô</b></small></div>' +
     '<div class="box topr"><div class="sg"><span class="on">Link</span><span>Buscar</span></div><div class="url" id="url"></div><span class="pb" id="paste">Colar link</span></div>' +
     '<div class="cols">' +
       '<div class="box" id="pick"><div class="emp" id="emp">Cole um link para ver as qualidades disponíveis.</div><div class="load" id="load"><i></i></div>' +

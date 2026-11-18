@@ -47,7 +47,7 @@
     '</style>';
 
   var html = css + '<div class="cp">' +
-    '<div class="cph">' + LOGO + '<b>COPIÔ</b><small>por <b>Sales Wed.</b></small></div>' +
+    '<div class="cph">' + LOGO + '<b>COPIÔ</b><small>por <b>Criô</b></small></div>' +
     '<div class="cpg"><div>' +
       '<div class="sx" id="s1"><h3><i>1</i>Cartão</h3><div class="wait" id="wait">Conecte um cartão de memória…</div>' +
         '<div class="cardx" id="card"><span><strong>EOS_DIGITAL</strong><small>Canon EOS R6 · 64 GB · 418 arquivos</small></span><span style="font-size:12px;font-weight:700">Selecionado</span></div></div>' +
