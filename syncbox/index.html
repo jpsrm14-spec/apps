@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sync Box · plugin do Premiere que organiza a mídia do projeto</title>
-<meta name="description" content="Plugin gratuito para o Adobe Premiere Pro: toda música, vídeo e efeito sonoro que você importa vai sozinho para a pasta do projeto, cada um na sua gaveta. Verifica projetos antigos e traz o que ficou de fora. Mac e Windows, funciona offline.">
+<meta name="description" content="Plugin gratuito para o Adobe Premiere Pro: toda música, vídeo e efeito sonoro que você importa vai sozinho para a pasta do projeto, cada um na sua gaveta. Verifica projetos antigos e traz o que ficou de fora. Modo Same Day Edit: vídeo novo de cada câmera entra sozinho no projeto. Mac e Windows, funciona offline.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Apps · Sales Wed.">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:url" content="https://apps.weddingflow.com.br/syncbox/">
 <meta property="og:title" content="Sync Box · a mídia do projeto sempre junta">
-<meta property="og:description" content="Plugin do Premiere: música, vídeo e efeito direto na pasta do projeto, separados por tipo. Verifica projetos antigos e traz tudo com um clique. Mac e Windows, offline.">
+<meta property="og:description" content="Plugin do Premiere: música, vídeo e efeito direto na pasta do projeto, separados por tipo. Modo Same Day Edit: vídeo novo de cada câmera entra sozinho no projeto. Mac e Windows, offline.">
 <meta property="og:image" content="https://apps.weddingflow.com.br/img/compartilhar-syncbox.jpg">
 <meta property="og:image:secure_url" content="https://apps.weddingflow.com.br/img/compartilhar-syncbox.jpg">
 <meta property="og:image:type" content="image/jpeg">
@@ -165,6 +165,15 @@ footer .sp{margin-left:auto}
 .faq details[open] summary::after{content:"–"}
 .faq p{margin:8px 0 0;color:var(--soft);font-size:15px}
 @media (max-width:560px){.path{white-space:normal;overflow-wrap:anywhere}}
+.sde{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;align-items:center;background:var(--white);border:var(--bw) solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--red);padding:32px}
+.sde h2 em{font-style:normal;color:var(--red)}
+.badge{display:inline-block;background:var(--red);color:var(--white);border:2px solid var(--ink);border-radius:99px;font-size:13px;font-weight:700;padding:3px 12px;margin-bottom:12px}
+.steps.big li{font-size:16px}
+.crew{display:flex;flex-wrap:wrap;gap:8px}
+.who{display:inline-flex;align-items:center;gap:7px;border:2.5px solid var(--ink);border-radius:99px;padding:3px 12px 3px 4px;font-weight:600;font-size:14px;background:var(--paper)}
+.who i{width:24px;height:24px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:800;color:#fff}
+.who b{font-family:var(--display);font-weight:800}
+@media (max-width:820px){.sde{grid-template-columns:minmax(0,1fr);padding:22px 18px}}
 </style>
 </head>
 <body>
@@ -235,7 +244,7 @@ footer .sp{margin-left:auto}
           <p class="req">Premiere Pro 2024 ou mais novo, em Mac com Apple Silicon ou Intel.</p>
           <div class="dlrow">
             <a class="btn" data-os="mac" href="#baixar">Baixar para Mac</a>
-            <span class="file">SyncBox-Mac.zip · 27 KB</span>
+            <span class="file">SyncBox-Mac.zip · 31 KB</span>
           </div>
           <ol class="steps">
             <li>Feche o Premiere. Abra o <span class="path">SyncBox-Mac.zip</span> e entre na pasta <b>Sync Box</b>.</li>
@@ -256,7 +265,7 @@ footer .sp{margin-left:auto}
           <p class="req">Premiere Pro 2024 ou mais novo, Windows 10 ou 11.</p>
           <div class="dlrow">
             <a class="btn" data-os="win" href="#baixar">Baixar para Windows</a>
-            <span class="file">SyncBox-Windows.zip · 27 KB</span>
+            <span class="file">SyncBox-Windows.zip · 31 KB</span>
           </div>
           <ol class="steps">
             <li>Feche o Premiere. Clique com o botão direito no <span class="path">SyncBox-Windows.zip</span> e escolha <b>Extrair tudo</b>.</li>
@@ -270,12 +279,34 @@ footer .sp{margin-left:auto}
     <p class="why">Os avisos dos passos em vermelho aparecem porque o Sync Box ainda não tem assinatura digital da Apple, da Microsoft e da Adobe. O instalador só copia o plugin para a pasta de extensões do Premiere e libera extensões sem assinatura. Para remover, use o <span class="path">Desinstalar Sync Box</span> que vem na mesma pasta: seus projetos e arquivos não são mexidos.</p>
   </section>
 
+  <section class="sde" aria-labelledby="t-sde">
+    <div>
+      <span class="badge">Modo Same Day Edit</span>
+      <h2 id="t-sde">O vídeo chega do cartão e <em>já está no projeto</em>.</h2>
+      <p class="sub">Para o vídeo que você entrega durante o próprio casamento. A equipe vai mandando takes o dia todo; você só faz o backup na pasta de cada pessoa e continua editando.</p>
+      <ol class="steps big">
+        <li>Ligue o <b>Same Day Edit</b> no painel e escolha a pasta do dia, com uma subpasta para cada pessoa: <span class="path">Sales</span>, <span class="path">Clis</span>, <span class="path">Drone</span>…</li>
+        <li>Faça o backup dos cartões nessas pastas, do jeito que você já faz (com o Copiô, por exemplo).</li>
+        <li>Cada vídeo novo entra sozinho no projeto, na pasta <span class="path">SAME DAY EDIT › nome da pessoa</span>. O Sync Box espera a cópia terminar antes de importar.</li>
+        <li>Vídeo repetido não entra duas vezes, nem com outro nome como <span class="path">MVI_1000 (1).MP4</span>. Os brutos ficam onde estão; nada é copiado de novo.</li>
+      </ol>
+    </div>
+    <div class="jobs" aria-label="Exemplo do Same Day Edit">
+      <p class="cap">Same Day Edit no painel</p>
+      <div class="crew"><span class="who"><i style="background:#2F5FE0">C</i>Clis <b>14</b></span><span class="who"><i style="background:#E2452F">D</i>Drone <b>6</b></span><span class="who"><i style="background:#E8A33A">S</i>Sales <b>21</b></span></div>
+      <div class="job"><span class="ic"><svg viewBox="0 0 32 32"><rect x="3" y="8" width="20" height="16" rx="3" fill="#2F5FE0" stroke="#17161A" stroke-width="2.4"/><path d="M23 14l6-4v12l-6-4z" fill="#F1EADD" stroke="#17161A" stroke-width="2.4" stroke-linejoin="round"/></svg></span><div><b>MVI_2231_CanonR6_Clis.MP4</b><small><span class="chip">Clis</span>entrou no projeto agora</small></div></div>
+      <div class="job"><span class="ic"><svg viewBox="0 0 32 32"><rect x="3" y="8" width="20" height="16" rx="3" fill="#2F5FE0" stroke="#17161A" stroke-width="2.4"/><path d="M23 14l6-4v12l-6-4z" fill="#F1EADD" stroke="#17161A" stroke-width="2.4" stroke-linejoin="round"/></svg></span><div><b>DJI_0412_Drone.MP4</b><small><span class="chip">Drone</span>esperando a cópia terminar</small></div><span class="bar"><i style="width:72%"></i></span></div>
+      <div class="job"><span class="ic"><svg viewBox="0 0 32 32"><rect x="3" y="8" width="20" height="16" rx="3" fill="#2F5FE0" stroke="#17161A" stroke-width="2.4"/><path d="M23 14l6-4v12l-6-4z" fill="#F1EADD" stroke="#17161A" stroke-width="2.4" stroke-linejoin="round"/></svg></span><div><b>MVI_2231 (1).MP4</b><small><span class="chip">Repetido</span>já está no projeto, não entrou</small></div></div>
+    </div>
+  </section>
+
   <section class="what" aria-labelledby="t-what">
     <div>
       <h2 id="t-what">O que ele faz</h2>
       <p class="sub">Você continua editando do mesmo jeito. O Sync Box cuida da bagunça de arquivos por trás, nos projetos novos e nos que já estavam em andamento.</p>
       <ul class="feats">
         <li><b>Verifica o projeto inteiro</b><span>Instalou agora num projeto que já estava andando? Ao abrir, ele confere todos os arquivos usados, mostra quais estão fora da pasta e traz tudo com um clique. Também confere quando você religa o plugin, e tem o botão Verificar projeto.</span></li>
+        <li><b>Same Day Edit</b><span>Vigia a pasta do dia: cada vídeo novo da equipe entra direto no projeto, separado por pessoa, sem duplicar.</span></li>
         <li><b>Percebe sozinho</b><span>Importou ou arrastou um arquivo de fora da pasta do projeto? Em dois segundos ele já foi guardado.</span></li>
         <li><b>Cada coisa na sua gaveta</b><span>Músicas, efeitos sonoros, vídeos, imagens e gráficos, cada tipo na sua pasta, criada na hora.</span></li>
         <li><b>Sabe o que é música e o que é efeito</b><span>Olha o nome do arquivo (whoosh, impact, riser, sfx…) e a duração: áudio curto vai para efeitos.</span></li>
@@ -299,6 +330,8 @@ footer .sp{margin-left:auto}
       <details><summary>Onde ficam os arquivos?</summary><p>Na mesma pasta do arquivo .prproj, dentro de <span class="path">MIDIA IMPORTADA</span>, separados em MUSICAS, EFEITOS SONOROS, VIDEOS, IMAGENS, GRAFICOS e OUTROS. Dá para mudar o nome da pasta nas configurações do painel.</p></details>
       <details><summary>Instalei num projeto que já estava em andamento. E agora?</summary><p>Ao abrir o projeto, o Sync Box verifica todos os arquivos usados e mostra a lista do que está fora da pasta, com o tamanho de cada um. Clique em <b>Trazer todos agora</b> e ele copia e religa tudo. Você pode repetir quando quiser no botão <b>Verificar projeto</b>.</p></details>
       <details><summary>E se eu desligar o plugin um tempo?</summary><p>O que você importar com ele desligado não é copiado na hora. Quando você liga de novo, ele faz a verificação e mostra o que ficou para trás.</p></details>
+      <details><summary>Como organizo as pastas no Same Day Edit?</summary><p>Escolha uma pasta para o dia (por exemplo <span class="path">CASAMENTO/SAME DAY</span>) e crie dentro dela uma subpasta para cada pessoa da equipe. Pode ter subpastas dentro (VIDEO, AUDIO): vale o nome da primeira. Arquivos soltos na pasta principal vão para "Geral".</p></details>
+      <details><summary>O Same Day Edit copia os vídeos para outro lugar?</summary><p>Não. Os vídeos ficam na pasta onde você fez o backup e são importados de lá, então não ocupa espaço duas vezes. Áudios também entram; fotos só se você marcar "Incluir fotos".</p></details>
       <details><summary>Preciso deixar o painel aberto?</summary><p>Sim, mas pode ser numa aba escondida, encaixado junto com outros painéis. Ele continua funcionando por trás.</p></details>
       <details><summary>O projeto precisa estar salvo?</summary><p>Sim. O Sync Box usa a pasta onde o projeto está salvo; num projeto novo, salve uma vez e ele começa a funcionar.</p></details>
       <details><summary>Funciona no Premiere 2025, 2026…?</summary><p>Funciona do Premiere Pro 2024 em diante, no Mac e no Windows.</p></details>
@@ -306,7 +339,7 @@ footer .sp{margin-left:auto}
   </section>
 
   <footer>
-    <span>Sync Box 1.1</span>
+    <span>Sync Box 1.0</span>
     <span>Feito por <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">Sales Wed.</a> · @saleswed_</span>
     <a class="sp" href="../">Outros apps da Sales Wed.</a>
   </footer>
