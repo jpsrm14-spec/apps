@@ -139,6 +139,20 @@ footer .sp{margin-left:auto}
   footer .sp{margin-left:0}
 }
 @media (prefers-reduced-motion:reduce){.btn{transition:none}}
+.more-apps h2{margin:0 0 6px}
+.more-apps .sub{margin:0 0 20px}
+.ma-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.ma{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:start;background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:18px;text-decoration:none;color:var(--ink);transition:transform .1s,box-shadow .1s}
+.ma:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.ma:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.ma img{width:64px;height:64px}
+.ma h3{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.015em;margin:0 0 4px}
+.ma p{margin:0 0 10px;font-size:15px;color:var(--soft)}
+.ma .ma-tags{display:flex;flex-wrap:wrap;gap:6px}
+.ma .ma-tags span{font-size:12px;font-weight:700;border:2px solid var(--ink);border-radius:99px;padding:0 9px;background:var(--cream)}
+.ma .ma-go{grid-column:2;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:6px;margin-top:4px;text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:4px}
+.applink{font-weight:700;color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:3px;white-space:nowrap}
+.applink img{width:20px;height:20px;vertical-align:-4px;margin-right:4px}
 </style>
 </head>
 <body>
@@ -255,6 +269,23 @@ footer .sp{margin-left:auto}
 │  ├─ FOTO/   <span class="f">DSC_0412_SonyA7IV_Clis.ARW</span>
 │  └─ VIDEO/  <span class="f">C0021_SonyFX30_Clis.MP4</span>
 └─ _RELATORIOS_BACKUP/</pre>
+    </div>
+  </section>
+
+  <section class="more-apps" aria-labelledby="t-more">
+    <h2 id="t-more">Outros apps da Sales Wed.</h2>
+    <p class="sub">Ferramentas que a gente criou para o próprio fluxo de trabalho. Todas grátis.</p>
+    <div class="ma-grid">
+      <a class="ma" href="../baixo/">
+        <img src="../img/baixo-180.png" alt="" width="64" height="64">
+        <div><h3>Baixô</h3><p>Vídeos e músicas do YouTube na qualidade máxima: 4K 60fps, MP3 320 com capa, playlists e canais inteiros.</p><div class="ma-tags"><span>Mac</span><span>Windows</span><span>YouTube</span></div></div>
+        <span class="ma-go">Conhecer o Baixô →</span>
+      </a>
+      <a class="ma" href="../syncbox/">
+        <img src="../img/syncbox-180.png" alt="" width="64" height="64">
+        <div><h3>Sync Box</h3><p>Plugin que guarda na pasta do projeto toda música, vídeo e efeito que você importa, com modo Same Day Edit.</p><div class="ma-tags"><span>Premiere Pro</span><span>DaVinci Resolve (beta)</span><span>Sem internet</span></div></div>
+        <span class="ma-go">Conhecer o Sync Box →</span>
+      </a>
     </div>
   </section>
 
