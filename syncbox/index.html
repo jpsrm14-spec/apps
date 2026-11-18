@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sync Box · plugin do Premiere que organiza a mídia do projeto</title>
+<meta name="description" content="Plugin gratuito para o Adobe Premiere Pro: toda música, vídeo e efeito sonoro que você importa vai sozinho para a pasta do projeto, cada um na sua gaveta. Mac e Windows, funciona offline.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Apps · Sales Wed.">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://apps.weddingflow.com.br/syncbox/">
+<meta property="og:title" content="Sync Box · a mídia do projeto sempre junta">
+<meta property="og:description" content="Plugin do Premiere: música, vídeo e efeito direto na pasta do projeto, separados por tipo. Mac e Windows, funciona offline.">
+<meta property="og:image" content="https://apps.weddingflow.com.br/img/compartilhar-syncbox.jpg">
+<meta property="og:image:secure_url" content="https://apps.weddingflow.com.br/img/compartilhar-syncbox.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sync Box: música, vídeo e efeito direto na pasta do projeto">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://apps.weddingflow.com.br/img/compartilhar-syncbox.jpg">
+<link rel="icon" href="../img/syncbox-64.png">
+<link rel="apple-touch-icon" href="../img/syncbox-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Mesmo layout do Copiô e do Baixô. */
+:root{
+  --cream:#F1EADD; --paper:#FBF7EF; --white:#FFFFFF; --ink:#17161A; --soft:#5A554E; --line:#D8CEBC;
+  --red:#E2452F; --blue:#2F5FE0; --blue-ink:#FFFFFF; --gold:#FFD9A0;
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Inter",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --bw:3px; --r:16px; --sh:5px 5px 0 var(--ink);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+::selection{background:var(--blue);color:var(--blue-ink)}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1040px;margin:0 auto;padding-block:24px 56px;display:grid;gap:56px}
+
+/* topo */
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top .logo{width:52px;height:52px;flex-shrink:0}
+.wordmark{height:30px;width:auto;display:block}
+.top .by{margin-left:auto;display:inline-flex;align-items:center;gap:10px;font-size:15px;color:var(--soft);text-decoration:none;padding:6px 8px 6px 12px;border-radius:12px}
+.top .by img{width:40px;height:40px;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.top .by:hover img{transform:rotate(-8deg) scale(1.06)}
+.top .by b{color:var(--ink);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--red)}
+.top .by:hover{background:var(--paper)}
+
+/* abertura */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:center}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.6vw,60px);line-height:1.02;letter-spacing:-.025em;margin:0 0 18px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--red)}
+.lead{font-size:18px;max-width:34em;margin:0 0 26px;color:#2C2A28}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.note-sm{font-size:14px;color:var(--soft)}
+.rename{background:var(--ink);color:var(--cream);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:6px 6px 0 var(--red);
+  padding:20px 20px 18px;font-family:var(--mono);font-size:14px;display:grid;gap:16px;min-width:0}
+.rename .lbl{font-family:var(--body);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#B9B2A6;font-weight:600}
+.rename .pair{display:grid;gap:6px;min-width:0}
+.rename .from{color:#B9B2A6;overflow-wrap:anywhere}
+.rename .to{color:var(--cream);overflow-wrap:anywhere}
+.rename .to b{color:var(--gold);font-weight:600}
+.rename .to i{font-style:normal;background:var(--red);color:var(--white);padding:0 4px;border-radius:4px}
+.rename .arrow{color:var(--red);font-weight:600;margin-right:6px}
+.rename hr{border:0;border-top:1px dashed #4A4640;margin:0}
+
+/* botoes */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--blue);color:var(--blue-ink);
+  border:var(--bw) solid var(--ink);border-radius:14px;box-shadow:var(--sh);padding:14px 22px;font-family:var(--body);font-weight:700;
+  font-size:17px;text-decoration:none;transition:transform .1s,box-shadow .1s;cursor:pointer}
+.btn svg{width:20px;height:20px;flex-shrink:0}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+.btn.ghost{background:var(--paper);color:var(--ink)}
+.btn[aria-disabled="true"]{background:var(--line);color:var(--soft);border-color:#9B9486;box-shadow:none;cursor:not-allowed;transform:none}
+
+/* download */
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);letter-spacing:-.02em;line-height:1.1;margin:0 0 8px;text-wrap:balance}
+.sub{margin:0 0 22px;color:var(--soft);max-width:44em}
+.phone{background:var(--paper);border:var(--bw) solid var(--ink);border-radius:var(--r);padding:14px 16px;margin:0 0 20px;font-weight:600}
+.os-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
+.os{background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;min-width:0}
+.os.mine{box-shadow:7px 7px 0 var(--red)}
+.os.mine{order:-1}
+.os-head{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:var(--bw) solid var(--ink);background:var(--paper)}
+.os-head h3{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.015em;margin:0}
+.os-head svg{width:34px;height:34px;flex-shrink:0}
+.mine-tag{margin-left:auto;background:var(--red);color:var(--white);border:2px solid var(--ink);border-radius:99px;font-size:13px;font-weight:700;padding:2px 11px;white-space:nowrap}
+.os-body{padding:20px;display:grid;gap:16px}
+.req{margin:0;font-size:15px;color:var(--soft)}
+.dlrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.file{font-family:var(--mono);font-size:13px;color:var(--soft)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{position:relative;padding-left:42px;min-height:28px;counter-increment:s;font-size:15px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:28px;height:28px;border-radius:8px;background:var(--ink);color:var(--cream);
+  font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.steps li.warn::before{background:var(--red);color:var(--white)}
+.steps b{font-weight:700}
+.path{font-family:var(--mono);font-size:13.5px;background:var(--cream);border-radius:6px;padding:1px 6px;white-space:nowrap}
+.why{margin:22px 0 0;font-size:14px;color:var(--soft);max-width:52em}
+
+/* o que faz */
+.what{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:40px;align-items:start}
+.feats{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:2px solid var(--ink)}
+.feats li{padding:14px 0;border-bottom:1px solid var(--line);display:grid;gap:2px}
+.feats b{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.01em}
+.feats span{color:var(--soft);font-size:15px}
+.tree{background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:18px 18px 16px;min-width:0}
+.tree .cap{font-size:13px;color:var(--soft);margin:0 0 10px}
+.tree pre{margin:0;font-family:var(--mono);font-size:13px;line-height:1.75;overflow-x:auto;color:var(--ink)}
+.tree .d{font-weight:600}
+.tree .p{color:var(--blue);font-weight:600}
+.tree .f{color:var(--soft)}
+.tree .k{color:var(--red);font-weight:600}
+
+footer{border-top:2px solid var(--ink);padding-top:18px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-size:14px;color:var(--soft)}
+footer a{color:var(--ink);font-weight:600;text-underline-offset:3px}
+footer .sp{margin-left:auto}
+
+
+/* lista de downloads de exemplo */
+.jobs{background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:16px;display:grid;gap:12px;min-width:0}
+.jobs .cap{font-size:13px;color:var(--soft);margin:0}
+.job{border:var(--bw) solid var(--ink);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;background:var(--paper)}
+.job .ic{width:44px;height:44px;border:2.5px solid var(--ink);border-radius:11px;background:var(--cream);display:grid;place-items:center}
+.job .ic svg{width:32px;height:32px}
+.job b{display:block;font-size:14.5px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.job small{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--soft);margin-top:2px}
+.job .chip{font-size:11.5px;font-weight:700;border:2px solid var(--ink);border-radius:99px;padding:0 8px;background:var(--cream);color:var(--ink)}
+.job .bar{grid-column:2;height:16px;border:2.5px solid var(--ink);border-radius:7px;padding:2px;background:var(--white);margin-top:-4px}
+.job .bar i{display:block;height:100%;background:repeating-linear-gradient(90deg,var(--red) 0 8px,transparent 8px 11px)}
+.spin{transform-origin:16px 16px;animation:spin 1s linear infinite}
+.drop{animation:drop 1s infinite cubic-bezier(.5,0,.6,1)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes drop{0%{transform:translateY(-6px);opacity:0}25%{opacity:1}75%{transform:translateY(3px);opacity:1}100%{transform:translateY(5px);opacity:0}}
+.rename .to .q{background:var(--blue);color:var(--white);padding:0 5px;border-radius:4px;font-weight:600}
+
+@media (max-width:820px){
+  .hero,.what{grid-template-columns:minmax(0,1fr)}
+  .os-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:480px){
+  .wordmark{height:24px}
+  .top .logo{width:44px;height:44px}
+  .btn{width:100%}
+  .os-head h3{font-size:22px}
+  footer .sp{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+.rename .to .q.r{background:var(--red)}
+.rename .to .q.g{background:var(--gold);color:var(--ink)}
+.faq{display:grid;gap:0;border-top:2px solid var(--ink);max-width:760px}
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq summary{cursor:pointer;font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.01em;list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-weight:800;color:var(--red)}
+.faq details[open] summary::after{content:"–"}
+.faq p{margin:8px 0 0;color:var(--soft);font-size:15px}
+@media (max-width:560px){.path{white-space:normal;overflow-wrap:anywhere}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <svg class="logo" aria-hidden="true" viewBox="20 20 216 216">
+<rect x="26" y="26" width="204" height="204" rx="52" fill="#F1EADD" stroke="#17161A" stroke-width="9"/>
+<rect x="73" y="51" width="124" height="162" rx="16" fill="#17161A"/>
+<rect x="66" y="44" width="124" height="162" rx="16" fill="#2F5FE0" stroke="#17161A" stroke-width="9"/>
+<g stroke="#17161A" stroke-width="7" stroke-linejoin="round">
+<rect x="80" y="58" width="96" height="40" rx="9" fill="#F1EADD"/>
+<rect x="80" y="106" width="96" height="40" rx="9" fill="#F1EADD"/>
+<rect x="80" y="154" width="96" height="40" rx="9" fill="#F1EADD"/></g>
+<path d="M104 88V68q10 1 13 10" fill="none" stroke="#E2452F" stroke-width="6" stroke-linecap="round"/><ellipse cx="99" cy="88" rx="7" ry="5.5" fill="#E2452F"/>
+<path d="M95 116l15 10-15 10z" fill="#E2452F" stroke="#E2452F" stroke-width="4" stroke-linejoin="round"/>
+<path d="M92 174l6-8 6 16 6-16 6 8" fill="none" stroke="#E2452F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+<g fill="#17161A"><rect x="132" y="74" width="30" height="9" rx="4.5"/><rect x="132" y="122" width="30" height="9" rx="4.5"/><rect x="132" y="170" width="30" height="9" rx="4.5"/></g>
+</svg>
+
+    <svg class="wordmark" viewBox="0 0 44 7" role="img" aria-label="Sync Box" shape-rendering="crispEdges" fill="currentColor"><rect x="1" y="0" width="1" height="1"/><rect x="2" y="0" width="1" height="1"/><rect x="3" y="0" width="1" height="1"/><rect x="4" y="0" width="1" height="1"/><rect x="0" y="1" width="1" height="1"/><rect x="0" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="2" y="3" width="1" height="1"/><rect x="3" y="3" width="1" height="1"/><rect x="4" y="4" width="1" height="1"/><rect x="4" y="5" width="1" height="1"/><rect x="0" y="6" width="1" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="2" y="6" width="1" height="1"/><rect x="3" y="6" width="1" height="1"/><rect x="6" y="0" width="1" height="1"/><rect x="10" y="0" width="1" height="1"/><rect x="6" y="1" width="1" height="1"/><rect x="10" y="1" width="1" height="1"/><rect x="7" y="2" width="1" height="1"/><rect x="9" y="2" width="1" height="1"/><rect x="8" y="3" width="1" height="1"/><rect x="8" y="4" width="1" height="1"/><rect x="8" y="5" width="1" height="1"/><rect x="8" y="6" width="1" height="1"/><rect x="12" y="0" width="1" height="1"/><rect x="16" y="0" width="1" height="1"/><rect x="12" y="1" width="1" height="1"/><rect x="13" y="1" width="1" height="1"/><rect x="16" y="1" width="1" height="1"/><rect x="12" y="2" width="1" height="1"/><rect x="13" y="2" width="1" height="1"/><rect x="16" y="2" width="1" height="1"/><rect x="12" y="3" width="1" height="1"/><rect x="14" y="3" width="1" height="1"/><rect x="16" y="3" width="1" height="1"/><rect x="12" y="4" width="1" height="1"/><rect x="15" y="4" width="1" height="1"/><rect x="16" y="4" width="1" height="1"/><rect x="12" y="5" width="1" height="1"/><rect x="15" y="5" width="1" height="1"/><rect x="16" y="5" width="1" height="1"/><rect x="12" y="6" width="1" height="1"/><rect x="16" y="6" width="1" height="1"/><rect x="19" y="0" width="1" height="1"/><rect x="20" y="0" width="1" height="1"/><rect x="21" y="0" width="1" height="1"/><rect x="18" y="1" width="1" height="1"/><rect x="22" y="1" width="1" height="1"/><rect x="18" y="2" width="1" height="1"/><rect x="18" y="3" width="1" height="1"/><rect x="18" y="4" width="1" height="1"/><rect x="18" y="5" width="1" height="1"/><rect x="22" y="5" width="1" height="1"/><rect x="19" y="6" width="1" height="1"/><rect x="20" y="6" width="1" height="1"/><rect x="21" y="6" width="1" height="1"/><rect x="27" y="0" width="1" height="1"/><rect x="28" y="0" width="1" height="1"/><rect x="29" y="0" width="1" height="1"/><rect x="30" y="0" width="1" height="1"/><rect x="27" y="1" width="1" height="1"/><rect x="31" y="1" width="1" height="1"/><rect x="27" y="2" width="1" height="1"/><rect x="31" y="2" width="1" height="1"/><rect x="27" y="3" width="1" height="1"/><rect x="28" y="3" width="1" height="1"/><rect x="29" y="3" width="1" height="1"/><rect x="30" y="3" width="1" height="1"/><rect x="27" y="4" width="1" height="1"/><rect x="31" y="4" width="1" height="1"/><rect x="27" y="5" width="1" height="1"/><rect x="31" y="5" width="1" height="1"/><rect x="27" y="6" width="1" height="1"/><rect x="28" y="6" width="1" height="1"/><rect x="29" y="6" width="1" height="1"/><rect x="30" y="6" width="1" height="1"/><rect x="34" y="0" width="1" height="1"/><rect x="35" y="0" width="1" height="1"/><rect x="36" y="0" width="1" height="1"/><rect x="33" y="1" width="1" height="1"/><rect x="37" y="1" width="1" height="1"/><rect x="33" y="2" width="1" height="1"/><rect x="37" y="2" width="1" height="1"/><rect x="33" y="3" width="1" height="1"/><rect x="37" y="3" width="1" height="1"/><rect x="33" y="4" width="1" height="1"/><rect x="37" y="4" width="1" height="1"/><rect x="33" y="5" width="1" height="1"/><rect x="37" y="5" width="1" height="1"/><rect x="34" y="6" width="1" height="1"/><rect x="35" y="6" width="1" height="1"/><rect x="36" y="6" width="1" height="1"/><rect x="39" y="0" width="1" height="1"/><rect x="43" y="0" width="1" height="1"/><rect x="39" y="1" width="1" height="1"/><rect x="43" y="1" width="1" height="1"/><rect x="40" y="2" width="1" height="1"/><rect x="42" y="2" width="1" height="1"/><rect x="41" y="3" width="1" height="1"/><rect x="40" y="4" width="1" height="1"/><rect x="42" y="4" width="1" height="1"/><rect x="39" y="5" width="1" height="1"/><rect x="43" y="5" width="1" height="1"/><rect x="39" y="6" width="1" height="1"/><rect x="43" y="6" width="1" height="1"/></svg>
+    <a class="by" href="../" title="Outros apps da Sales Wed.">por <b>Sales Wed.</b><img src="../img/sales-wed-180.png" alt="" width="40" height="40"></a>
+  </header>
+
+  <section class="hero" aria-labelledby="t-hero">
+    <div>
+      <h1 id="t-hero">Toda a mídia do projeto <em>junta na mesma pasta</em>.</h1>
+      <p class="lead">Um plugin para o Premiere Pro. Baixou uma música, um vídeo ou um efeito e arrastou para o projeto? O Sync Box copia o arquivo para a pasta do projeto, guarda na gaveta certa e religa o clipe no Premiere. Na hora de levar o projeto para outro HD, não falta nada.</p>
+      <div class="cta">
+        <a class="btn" id="hero-btn" href="#baixar">Baixar o Sync Box</a>
+        <span class="note-sm">Para Mac e Windows. Grátis e funciona sem internet.</span>
+      </div>
+    </div>
+    <div class="rename" aria-label="Exemplos do que o Sync Box faz">
+      <div class="lbl">Você importa no Premiere</div>
+      <div class="pair">
+        <div class="from">Downloads/Golden Hour.mp3</div>
+        <div class="to"><span class="arrow">→</span><span class="q">MUSICAS</span> <b>Projeto/MIDIA IMPORTADA/MUSICAS/</b></div>
+      </div>
+      <hr>
+      <div class="lbl">Áudio curto vira efeito sonoro</div>
+      <div class="pair">
+        <div class="from">Downloads/Whoosh 01.wav · 2 s</div>
+        <div class="to"><span class="arrow">→</span><span class="q r">EFEITOS SONOROS</span> <b>Projeto/MIDIA IMPORTADA/EFEITOS SONOROS/</b></div>
+      </div>
+      <hr>
+      <div class="lbl">E vídeo, imagem, gráfico…</div>
+      <div class="pair">
+        <div class="from">Desktop/drone praia.mp4</div>
+        <div class="to"><span class="arrow">→</span><span class="q g">VIDEOS</span> <b>Projeto/MIDIA IMPORTADA/VIDEOS/</b></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="baixar" aria-labelledby="t-dl">
+    <h2 id="t-dl">Baixar</h2>
+    <p class="sub" id="detect">Escolha o seu sistema. A instalação leva menos de um minuto.</p>
+    <p class="phone" id="phone" hidden>O Sync Box é um plugin para o Premiere no computador. Abra este mesmo link no seu Mac ou PC para baixar.</p>
+
+    <div class="os-grid">
+      <article class="os" id="os-mac" aria-labelledby="t-mac">
+        <div class="os-head">
+          <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="6" width="24" height="16" rx="3" fill="#F1EADD" stroke="#17161A" stroke-width="2.5"/><path d="M2 25h30l-2 4H4z" fill="#E2452F" stroke="#17161A" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <h3 id="t-mac">Mac</h3>
+          <span class="mine-tag" hidden>Seu sistema</span>
+        </div>
+        <div class="os-body">
+          <p class="req">Premiere Pro 2024 ou mais novo, em Mac com Apple Silicon ou Intel.</p>
+          <div class="dlrow">
+            <a class="btn" data-os="mac" href="#baixar">Baixar para Mac</a>
+            <span class="file">SyncBox-Mac.zip · 26 KB</span>
+          </div>
+          <ol class="steps">
+            <li>Feche o Premiere. Abra o <span class="path">SyncBox-Mac.zip</span> e entre na pasta <b>Sync Box</b>.</li>
+            <li>Dê dois cliques em <span class="path">Instalar Sync Box.command</span>.</li>
+            <li class="warn"><span>Se o macOS avisar que não conseguiu verificar o arquivo, vá em <span class="path">Ajustes do Sistema › Privacidade e Segurança</span>, desça até Segurança e clique em <b>Abrir Mesmo Assim</b>. Só precisa fazer isso uma vez.</span></li>
+            <li>Abra o Premiere e vá em <span class="path">Janela › Extensões › Sync Box</span>. Deixe o painel encaixado numa aba e pronto.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="os" id="os-win" aria-labelledby="t-win">
+        <div class="os-head">
+          <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="3" y="4" width="28" height="19" rx="3" fill="#F1EADD" stroke="#17161A" stroke-width="2.5"/><path d="M13 23l-1 5h10l-1-5" fill="none" stroke="#17161A" stroke-width="2.5" stroke-linejoin="round"/><path d="M9 28h16" stroke="#17161A" stroke-width="2.5" stroke-linecap="round"/><rect x="8" y="9" width="8" height="9" rx="1.5" fill="#2F5FE0"/></svg>
+          <h3 id="t-win">Windows</h3>
+          <span class="mine-tag" hidden>Seu sistema</span>
+        </div>
+        <div class="os-body">
+          <p class="req">Premiere Pro 2024 ou mais novo, Windows 10 ou 11.</p>
+          <div class="dlrow">
+            <a class="btn" data-os="win" href="#baixar">Baixar para Windows</a>
+            <span class="file">SyncBox-Windows.zip · 26 KB</span>
+          </div>
+          <ol class="steps">
+            <li>Feche o Premiere. Clique com o botão direito no <span class="path">SyncBox-Windows.zip</span> e escolha <b>Extrair tudo</b>.</li>
+            <li>Na pasta extraída, dê dois cliques em <span class="path">Instalar Sync Box.bat</span>.</li>
+            <li class="warn"><span>Se aparecer <b>“O Windows protegeu o computador”</b>, clique em <b>Mais informações</b> e depois em <b>Executar assim mesmo</b>.</span></li>
+            <li>Abra o Premiere e vá em <span class="path">Janela › Extensões › Sync Box</span>. Deixe o painel encaixado numa aba e pronto.</li>
+          </ol>
+        </div>
+      </article>
+    </div>
+    <p class="why">Os avisos dos passos em vermelho aparecem porque o Sync Box ainda não tem assinatura digital da Apple, da Microsoft e da Adobe. O instalador só copia o plugin para a pasta de extensões do Premiere e libera extensões sem assinatura. Para remover, use o <span class="path">Desinstalar Sync Box</span> que vem na mesma pasta: seus projetos e arquivos não são mexidos.</p>
+  </section>
+
+  <section class="what" aria-labelledby="t-what">
+    <div>
+      <h2 id="t-what">O que ele faz</h2>
+      <p class="sub">Você continua editando do mesmo jeito. O Sync Box cuida da bagunça de arquivos por trás.</p>
+      <ul class="feats">
+        <li><b>Percebe sozinho</b><span>Importou ou arrastou um arquivo de fora da pasta do projeto? Em dois segundos ele já foi guardado.</span></li>
+        <li><b>Cada coisa na sua gaveta</b><span>Músicas, efeitos sonoros, vídeos, imagens e gráficos, cada tipo na sua pasta, criada na hora.</span></li>
+        <li><b>Sabe o que é música e o que é efeito</b><span>Olha o nome do arquivo (whoosh, impact, riser, sfx…) e a duração: áudio curto vai para efeitos.</span></li>
+        <li><b>Religa sem importar de novo</b><span>O clipe no Premiere passa a apontar para a cópia na pasta do projeto. Nada de arquivo duplicado no painel Projeto, e a timeline continua igual.</span></li>
+        <li><b>Seguro com o original</b><span>Por padrão copia e mantém o original. Pode mover, mas só o que estiver em Downloads; sua biblioteca de músicas nunca é mexida.</span></li>
+        <li><b>Não lota o HD</b><span>Arquivos muito grandes (acima de 3 GB, você escolhe) ficam esperando você decidir. Arquivo igual que já está na pasta é reaproveitado.</span></li>
+        <li><b>Funciona sem internet</b><span>Tudo acontece no seu computador. Nada é enviado para lugar nenhum.</span></li>
+      </ul>
+    </div>
+    <div class="jobs" aria-label="Exemplo do painel do Sync Box">
+      <p class="cap">O painel do Sync Box dentro do Premiere</p>
+      <div class="job"><span class="ic"><svg viewBox="0 0 32 32"><rect x="2" y="2" width="28" height="28" rx="8" fill="#F1EADD"/><path d="M15 23V8q8 1 9 8" fill="none" stroke="#E2452F" stroke-width="3" stroke-linecap="round"/><ellipse cx="11" cy="23" rx="5" ry="3.8" fill="#E2452F"/></svg></span><div><b>Golden Hour.mp3</b><small><span class="chip">MUSICAS</span>copiado agora</small></div></div>
+      <div class="job"><span class="ic"><svg viewBox="0 0 32 32"><path d="M3 16l5-7 5 14 5-14 5 14 5-8" fill="none" stroke="#E2452F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Whoosh 01.wav</b><small><span class="chip">EFEITOS SONOROS</span>copiado agora</small></div></div>
+      <div class="job"><span class="ic"><svg viewBox="0 0 32 32"><path d="M10 7l15 9-15 9z" fill="#E2452F" stroke="#E2452F" stroke-width="3" stroke-linejoin="round"/></svg></span><div><b>drone praia.mp4</b><small><span class="chip">VIDEOS</span>guardando</small></div><span class="bar"><i style="width:58%"></i></span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-faq">
+    <h2 id="t-faq">Dúvidas</h2>
+    <div class="faq">
+      <details><summary>Onde ficam os arquivos?</summary><p>Na mesma pasta do arquivo .prproj, dentro de <span class="path">MIDIA IMPORTADA</span>, separados em MUSICAS, EFEITOS SONOROS, VIDEOS, IMAGENS, GRAFICOS e OUTROS. Dá para mudar o nome da pasta nas configurações do painel.</p></details>
+      <details><summary>E os arquivos que já estavam no projeto?</summary><p>Quando você abre um projeto, o Sync Box avisa quantos arquivos usados estão fora da pasta e oferece trazer todos de uma vez. Ele só copia sozinho o que você importar depois.</p></details>
+      <details><summary>Preciso deixar o painel aberto?</summary><p>Sim, mas pode ser numa aba escondida, encaixado junto com outros painéis. Ele continua funcionando por trás.</p></details>
+      <details><summary>O projeto precisa estar salvo?</summary><p>Sim. O Sync Box usa a pasta onde o projeto está salvo; num projeto novo, salve uma vez e ele começa a funcionar.</p></details>
+      <details><summary>Funciona no Premiere 2025, 2026…?</summary><p>Funciona do Premiere Pro 2024 em diante, no Mac e no Windows.</p></details>
+    </div>
+  </section>
+
+  <footer>
+    <span>Sync Box 1.0</span>
+    <span>Feito por <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">Sales Wed.</a> · @saleswed_</span>
+    <a class="sp" href="../">Outros apps da Sales Wed.</a>
+  </footer>
+</div>
+
+<script>
+// Links dos arquivos de instalação. Vazio = botão mostra "Download em breve".
+var DOWNLOADS = {
+  mac: "https://github.com/jpsrm14-spec/syncbox/releases/latest/download/SyncBox-Mac.zip",
+  win: "https://github.com/jpsrm14-spec/syncbox/releases/latest/download/SyncBox-Windows.zip"
+};
+
+(function () {
+  var ARROW = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0l-4.5-4.5M10 13l4.5-4.5M4 17h12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  document.querySelectorAll('[data-os]').forEach(function (a) {
+    var url = DOWNLOADS[a.getAttribute('data-os')];
+    if (url) {
+      a.href = url; a.target = '_blank'; a.rel = 'noopener';
+      a.innerHTML = ARROW + a.textContent;
+    } else {
+      a.removeAttribute('href'); a.setAttribute('aria-disabled', 'true'); a.setAttribute('role', 'link');
+      a.textContent = 'Download em breve';
+    }
+  });
+
+  // Qual sistema o visitante usa (o link pode forçar: #mac ou #windows)
+  var ua = navigator.userAgent || '';
+  var pf = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || '';
+  var touch = (navigator.maxTouchPoints || 0) > 1;
+  var os = '';
+  if (/Android|iPhone|iPod|iPad/i.test(ua) || (/Mac/i.test(pf + ua) && touch)) os = 'phone';
+  else if (/Mac/i.test(pf + ua)) os = 'mac';
+  else if (/Win/i.test(pf + ua)) os = 'win';
+
+  function apply() {
+    var h = (location.hash || '').replace('#', '');
+    var pick = h === 'mac' ? 'mac' : h === 'windows' ? 'win' : os;
+    var names = { mac: 'Mac', win: 'Windows' };
+    ['mac', 'win'].forEach(function (k) {
+      var card = document.getElementById('os-' + k), mine = pick === k;
+      card.classList.toggle('mine', mine);
+      card.querySelector('.mine-tag').hidden = !mine;
+    });
+    document.getElementById('phone').hidden = os !== 'phone';
+    var hero = document.getElementById('hero-btn');
+    if (pick === 'mac' || pick === 'win') {
+      document.getElementById('detect').textContent = (h ? 'Mostrando primeiro a versão para ' : 'Você está num ') +
+        names[pick] + (h ? '.' : ': a versão certa já está em destaque. A instalação leva menos de um minuto.');
+      hero.textContent = 'Baixar para ' + names[pick];
+      hero.href = '#' + (pick === 'mac' ? 'mac' : 'windows');
+    }
+  }
+  apply();
+  window.addEventListener('hashchange', function () {
+    apply();
+    var el = document.getElementById('baixar');
+    if (el && /^#(mac|windows)$/.test(location.hash)) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
+</script>
+
+</body>
+</html>
