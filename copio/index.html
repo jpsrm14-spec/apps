@@ -22,6 +22,7 @@
 <link rel="icon" href="../img/copio-64.png">
 <link rel="apple-touch-icon" href="../img/copio-180.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="../sim/sim.css">
 <style>
 /* Layout: marca no topo, o renomear do cartão como abertura, dois cartões de download (Mac e Windows, o do visitante em destaque),
    e o que o app faz ao lado da árvore de pastas. Tema único e claro, nas cores da marca Copiô. */
@@ -173,6 +174,11 @@ footer .sp{margin-left:auto}
     </div>
   </section>
 
+  <section aria-labelledby="t-sim">
+    <div class="sim-head"><h2 id="t-sim">Veja por dentro</h2><p>Uma simulação do Copiô, do cartão conectado ao backup conferido. Clique num passo para ver de novo.</p></div>
+    <div data-sim style="margin-top:18px"></div>
+  </section>
+
   <section id="baixar" aria-labelledby="t-dl">
     <h2 id="t-dl">Baixar</h2>
     <p class="sub" id="detect">Escolha o seu sistema. A instalação leva menos de um minuto.</p>
@@ -315,5 +321,7 @@ var DOWNLOADS = {
 })();
 </script>
 
+<script src="sim.js"></script>
+<script src="../sim/sim.js"></script>
 </body>
 </html>
