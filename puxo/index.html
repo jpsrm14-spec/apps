@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Puxô · baixe do Google Drive sem compactar</title>
+<meta name="description" content="Baixe pastas e arquivos pesados do Google Drive inteiros, sem zip e sem o limite de 2 GB do navegador. Retoma se a internet cair. Para Mac, por Criô.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Criô · Apps">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://apps.weddingflow.com.br/puxo/">
+<meta property="og:title" content="Puxô · baixe do Google Drive sem compactar">
+<meta property="og:description" content="Baixe pastas e arquivos pesados do Google Drive inteiros, sem zip e sem o limite de 2 GB do navegador. Retoma se a internet cair. Para Mac, por Criô.">
+<meta property="og:image" content="https://apps.weddingflow.com.br/img/puxo-512.png">
+<link rel="icon" href="../img/puxo-64.png">
+<link rel="apple-touch-icon" href="../img/puxo-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --cream:#F1EADD; --paper:#FBF7EF; --white:#FFFFFF; --ink:#17161A; --soft:#5A554E; --line:#D8CEBC;
+  --red:#E2452F; --blue:#2F5FE0; --blue-ink:#FFFFFF; --gold:#FFD9A0;
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Inter",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --bw:3px; --r:16px; --sh:5px 5px 0 var(--ink);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+::selection{background:var(--blue);color:var(--blue-ink)}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  -webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1040px;margin:0 auto;padding-block:24px 56px;display:grid;gap:56px}
+
+/* topo */
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top .logo{width:52px;height:52px;flex-shrink:0}
+.wordmark{height:30px;width:auto;display:block}
+.top .by{margin-left:auto;display:inline-flex;align-items:center;gap:10px;font-size:15px;color:var(--soft);text-decoration:none;padding:6px 8px 6px 12px;border-radius:12px}
+.top .by img{width:40px;height:40px;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.top .by:hover img{transform:rotate(-8deg) scale(1.06)}
+.top .by b{color:var(--ink);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--red)}
+.top .by:hover{background:var(--paper)}
+
+/* abertura */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:40px;align-items:center}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(36px,5.6vw,60px);line-height:1.02;letter-spacing:-.025em;margin:0 0 18px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--red)}
+.lead{font-size:18px;max-width:34em;margin:0 0 26px;color:#2C2A28}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.note-sm{font-size:14px;color:var(--soft)}
+.rename{background:var(--ink);color:var(--cream);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:6px 6px 0 var(--red);
+  padding:20px 20px 18px;font-family:var(--mono);font-size:14px;display:grid;gap:16px;min-width:0}
+.rename .lbl{font-family:var(--body);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#B9B2A6;font-weight:600}
+.rename .pair{display:grid;gap:6px;min-width:0}
+.rename .from{color:#B9B2A6;overflow-wrap:anywhere}
+.rename .to{color:var(--cream);overflow-wrap:anywhere}
+.rename .to b{color:var(--gold);font-weight:600}
+.rename .to i{font-style:normal;background:var(--red);color:var(--white);padding:0 4px;border-radius:4px}
+.rename .arrow{color:var(--red);font-weight:600;margin-right:6px}
+.rename hr{border:0;border-top:1px dashed #4A4640;margin:0}
+
+/* botoes */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--blue);color:var(--blue-ink);
+  border:var(--bw) solid var(--ink);border-radius:14px;box-shadow:var(--sh);padding:14px 22px;font-family:var(--body);font-weight:700;
+  font-size:17px;text-decoration:none;transition:transform .1s,box-shadow .1s;cursor:pointer}
+.btn svg{width:20px;height:20px;flex-shrink:0}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+.btn.ghost{background:var(--paper);color:var(--ink)}
+.btn[aria-disabled="true"]{background:var(--line);color:var(--soft);border-color:#9B9486;box-shadow:none;cursor:not-allowed;transform:none}
+
+/* download */
+h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,3.6vw,38px);letter-spacing:-.02em;line-height:1.1;margin:0 0 8px;text-wrap:balance}
+.sub{margin:0 0 22px;color:var(--soft);max-width:44em}
+.phone{background:var(--paper);border:var(--bw) solid var(--ink);border-radius:var(--r);padding:14px 16px;margin:0 0 20px;font-weight:600}
+.os-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
+.os{background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;min-width:0}
+.os.mine{box-shadow:7px 7px 0 var(--red)}
+.os.mine{order:-1}
+.os-head{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:var(--bw) solid var(--ink);background:var(--paper)}
+.os-head h3{font-family:var(--display);font-weight:800;font-size:26px;letter-spacing:-.015em;margin:0}
+.os-head svg{width:34px;height:34px;flex-shrink:0}
+.mine-tag{margin-left:auto;background:var(--red);color:var(--white);border:2px solid var(--ink);border-radius:99px;font-size:13px;font-weight:700;padding:2px 11px;white-space:nowrap}
+.os-body{padding:20px;display:grid;gap:16px}
+.req{margin:0;font-size:15px;color:var(--soft)}
+.dlrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.file{font-family:var(--mono);font-size:13px;color:var(--soft)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{position:relative;padding-left:42px;min-height:28px;counter-increment:s;font-size:15px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:28px;height:28px;border-radius:8px;background:var(--ink);color:var(--cream);
+  font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.steps li.warn::before{background:var(--red);color:var(--white)}
+.steps b{font-weight:700}
+.path{font-family:var(--mono);font-size:13.5px;background:var(--cream);border-radius:6px;padding:1px 6px;white-space:nowrap}
+.why{margin:22px 0 0;font-size:14px;color:var(--soft);max-width:52em}
+
+/* o que faz */
+.what{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:40px;align-items:start}
+.feats{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:2px solid var(--ink)}
+.feats li{padding:14px 0;border-bottom:1px solid var(--line);display:grid;gap:2px}
+.feats b{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.01em}
+.feats span{color:var(--soft);font-size:15px}
+.tree{background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:18px 18px 16px;min-width:0}
+.tree .cap{font-size:13px;color:var(--soft);margin:0 0 10px}
+.tree pre{margin:0;font-family:var(--mono);font-size:13px;line-height:1.75;overflow-x:auto;color:var(--ink)}
+.tree .d{font-weight:600}
+.tree .p{color:var(--blue);font-weight:600}
+.tree .f{color:var(--soft)}
+.tree .k{color:var(--red);font-weight:600}
+
+footer{border-top:2px solid var(--ink);padding-top:18px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;font-size:14px;color:var(--soft)}
+footer a{color:var(--ink);font-weight:600;text-underline-offset:3px}
+footer .sp{margin-left:auto}
+
+
+/* lista de downloads de exemplo */
+.jobs{background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:16px;display:grid;gap:12px;min-width:0}
+.jobs .cap{font-size:13px;color:var(--soft);margin:0}
+.job{border:var(--bw) solid var(--ink);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;background:var(--paper)}
+.job .ic{width:44px;height:44px;border:2.5px solid var(--ink);border-radius:11px;background:var(--cream);display:grid;place-items:center}
+.job .ic svg{width:32px;height:32px}
+.job b{display:block;font-size:14.5px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.job small{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--soft);margin-top:2px}
+.job .chip{font-size:11.5px;font-weight:700;border:2px solid var(--ink);border-radius:99px;padding:0 8px;background:var(--cream);color:var(--ink)}
+.job .bar{grid-column:2;height:16px;border:2.5px solid var(--ink);border-radius:7px;padding:2px;background:var(--white);margin-top:-4px}
+.job .bar i{display:block;height:100%;background:repeating-linear-gradient(90deg,var(--red) 0 8px,transparent 8px 11px)}
+.spin{transform-origin:16px 16px;animation:spin 1s linear infinite}
+.drop{animation:drop 1s infinite cubic-bezier(.5,0,.6,1)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes drop{0%{transform:translateY(-6px);opacity:0}25%{opacity:1}75%{transform:translateY(3px);opacity:1}100%{transform:translateY(5px);opacity:0}}
+.rename .to .q{background:var(--blue);color:var(--white);padding:0 5px;border-radius:4px;font-weight:600}
+
+@media (max-width:820px){
+  .hero,.what{grid-template-columns:minmax(0,1fr)}
+  .os-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:480px){
+  .wordmark{height:24px}
+  .top .logo{width:44px;height:44px}
+  .btn{width:100%}
+  .os-head h3{font-size:22px}
+  footer .sp{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+.more-apps h2{margin:0 0 6px}
+.more-apps .sub{margin:0 0 20px}
+.ma-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.ma{display:grid;grid-template-columns:64px minmax(0,1fr);gap:14px;align-items:start;background:var(--white);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:18px;text-decoration:none;color:var(--ink);transition:transform .1s,box-shadow .1s}
+.ma:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.ma:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.ma img{width:64px;height:64px}
+.ma h3{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.015em;margin:0 0 4px}
+.ma p{margin:0 0 10px;font-size:15px;color:var(--soft)}
+.ma .ma-tags{display:flex;flex-wrap:wrap;gap:6px}
+.ma .ma-tags span{font-size:12px;font-weight:700;border:2px solid var(--ink);border-radius:99px;padding:0 9px;background:var(--cream)}
+.ma .ma-go{grid-column:2;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:6px;margin-top:4px;text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:4px}
+.applink{font-weight:700;color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:3px;white-space:nowrap}
+.applink img{width:20px;height:20px;vertical-align:-4px;margin-right:4px}
+.wm{font-family:var(--display);font-weight:800;font-size:34px;letter-spacing:-.03em;line-height:1}
+.os-grid.one{grid-template-columns:minmax(0,560px)}
+.legal{max-width:760px}
+.legal h1{font-size:clamp(32px,4.6vw,46px)}
+.legal h2{font-size:24px;margin:34px 0 8px}
+.legal p,.legal li{font-size:16.5px;color:#2C2A28}
+.legal ul{padding-left:22px}
+.legal .upd{color:var(--soft);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <img class="logo" src="../img/puxo-180.png" alt="" width="52" height="52">
+    <span class="wm">Puxô</span>
+    <a class="by" href="../" title="Outros apps do Criô">por <b>Criô</b><img src="../img/crio-180.png" alt="" width="40" height="40"></a>
+  </header>
+
+  <section class="hero" aria-labelledby="t-hero">
+    <div>
+      <h1 id="t-hero">Pastas pesadas do Google Drive, <em>sem zip</em>.</h1>
+      <p class="lead">O navegador compacta as pastas do Drive em vários zips de 2 GB, e às vezes o download trava no meio. O Puxô baixa arquivo por arquivo, do jeito que está no Drive, com várias conexões ao mesmo tempo e continuando de onde parou se a internet cair.</p>
+      <div class="cta">
+        <a class="btn" href="#baixar">Baixar o Puxô</a>
+        <span class="note-sm">Para Mac. Grátis.</span>
+      </div>
+    </div>
+    <div class="rename" aria-label="Exemplo do que o Puxô faz">
+      <div class="lbl">No navegador</div>
+      <div class="pair">
+        <div class="from">drive.google.com/drive/folders/…</div>
+        <div class="to"><span class="arrow">→</span>drive-download-…-001.zip, -002.zip, -003.zip…</div>
+      </div>
+      <hr>
+      <div class="lbl">No Puxô</div>
+      <div class="pair">
+        <div class="from">o mesmo link colado</div>
+        <div class="to"><span class="arrow">→</span><b>Casamento Ana e Leo/</b> Cerimônia/A001_C003.MOV <span class="q">48 GB</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="baixar" aria-labelledby="t-dl">
+    <h2 id="t-dl">Baixar</h2>
+    <p class="sub">Em breve. O Puxô está em fase final de testes.</p>
+    <div class="os-grid one">
+      <article class="os mine" id="os-mac" aria-labelledby="t-mac">
+        <div class="os-head">
+          <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="6" width="24" height="16" rx="3" fill="#F1EADD" stroke="#17161A" stroke-width="2.5"/><path d="M2 25h30l-2 4H4z" fill="#E2452F" stroke="#17161A" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <h3 id="t-mac">Mac</h3>
+        </div>
+        <div class="os-body">
+          <p class="req">macOS 11 ou mais novo. Funciona em Macs com Apple Silicon e com Intel.</p>
+          <div class="dlrow">
+            <a class="btn" data-os="mac" href="#baixar">Baixar para Mac</a>
+            <span class="file">Puxo.dmg · 48 MB</span>
+          </div>
+          <ol class="steps">
+            <li>Abra o <span class="path">Puxo.dmg</span> e arraste o Puxô para a pasta <b>Aplicativos</b>.</li>
+            <li class="warn"><span>Na primeira vez o macOS avisa que não conseguiu verificar o app. Vá em <span class="path">Ajustes do Sistema › Privacidade e Segurança</span>, desça até Segurança e clique em <b>Abrir Mesmo Assim</b>.</span></li>
+            <li>Clique em <b>Entrar com Google</b>, escolha sua conta e permita. O Puxô volta sozinho, já conectado.</li>
+            <li>Escolha uma pasta (ou cole o link que te mandaram) e clique em <b>Baixar</b>.</li>
+          </ol>
+        </div>
+      </article>
+    </div>
+    <p class="why">O Puxô só pede permissão para <b>ler e baixar</b> seus arquivos do Drive. Ele não altera nem apaga nada, e os arquivos vão direto do Google para o seu Mac, sem passar por nenhum servidor nosso. Leia a <a href="privacidade/">política de privacidade</a>.</p>
+  </section>
+
+  <section class="what" aria-labelledby="t-what">
+    <div>
+      <h2 id="t-what">O que ele faz</h2>
+      <p class="sub">Feito para quem recebe e entrega arquivos de vídeo e foto pesados pelo Drive.</p>
+      <ul class="feats">
+        <li><b>Sem zip, sem limite de 2 GB</b><span>Cada arquivo vem inteiro, no formato original, e as pastas descem com a mesma estrutura de subpastas.</span></li>
+        <li><b>Rápido de verdade</b><span>Cada arquivo grande baixa em várias partes ao mesmo tempo. Com a prioridade de banda ligada, o Puxô fica com a maior fatia da internet.</span></li>
+        <li><b>Continua de onde parou</b><span>Se a internet cair ou o Mac desligar, o download retoma do ponto exato quando você abrir o app de novo.</span></li>
+        <li><b>Confere cada arquivo</b><span>No fim, compara a assinatura (MD5) com a do Drive para garantir que nada chegou corrompido.</span></li>
+        <li><b>Seu Drive e links de outras pessoas</b><span>Meu Drive, Compartilhados comigo, Drives compartilhados, favoritos e qualquer link colado.</span></li>
+        <li><b>Não deixa o Mac dormir</b><span>Mantém o Mac acordado enquanto baixa e avisa quando termina.</span></li>
+      </ul>
+    </div>
+    <div class="jobs" aria-label="Exemplo da lista de transferências">
+      <p class="cap">As transferências do Puxô</p>
+      <div class="job"><span class="ic"><svg viewBox="0 0 32 32" fill="none" stroke="#17161A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><g class="drop"><path d="M16 3v9M12 8l4 4 4-4" stroke="#E2452F" stroke-width="3"/></g><path d="M4 16a2 2 0 0 1 2-2h6l2 2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" fill="#F2C14E"/></svg></span><div><b>Casamento Ana e Leo</b><small><span class="chip">12 conexões</span>112 MB/s · 38 de 214 arquivos</small></div><span class="bar"><i style="width:41%"></i></span></div>
+      <div class="job"><span class="ic"><svg viewBox="0 0 32 32" fill="none" stroke="#17161A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="20" height="16" rx="3" fill="#E2452F"/><path d="M23 13l6-3v12l-6-3z" fill="#E2452F"/></svg></span><div><b>Filme final 4K.mov</b><small><span class="chip">MD5</span>Conferindo o arquivo…</small></div><span class="bar"><i style="width:100%"></i></span></div>
+      <div class="job"><span class="ic"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" fill="#2F5FE0" stroke="#17161A" stroke-width="2.4"/><path d="M10.5 16.5l4 4 7-8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><b>Fotos editadas</b><small><span class="chip">860 arquivos</span>Concluído</small></div></div>
+    </div>
+  </section>
+
+  <section class="more-apps" aria-labelledby="t-more">
+    <h2 id="t-more">Outros apps do Criô</h2>
+    <p class="sub">Ferramentas que a gente criou para o próprio fluxo de trabalho. Todas grátis.</p>
+    <div class="ma-grid">
+      <a class="ma" href="../copio/">
+        <img src="../img/copio-180.png" alt="" width="64" height="64">
+        <div><h3>Copiô</h3><p>Backup do cartão de memória sem sobrescrever nada, separando fotos, vídeos e áudios com a câmera e quem captou no nome.</p><div class="ma-tags"><span>Mac</span><span>Windows</span><span>Sem internet</span></div></div>
+        <span class="ma-go">Conhecer o Copiô →</span>
+      </a>
+      <a class="ma" href="../syncbox/">
+        <img src="../img/syncbox-180.png" alt="" width="64" height="64">
+        <div><h3>Sync Box</h3><p>Plugin que guarda na pasta do projeto toda música, vídeo e efeito que você importa, com modo Same Day Edit.</p><div class="ma-tags"><span>Premiere Pro</span><span>DaVinci Resolve (beta)</span><span>Sem internet</span></div></div>
+        <span class="ma-go">Conhecer o Sync Box →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span>Puxô 1.0</span>
+    <span>Feito por <a href="https://www.instagram.com/crio.apps/" target="_blank" rel="noopener">Criô</a> · @crio.apps · criado por João Pedro, da <a href="https://www.instagram.com/saleswed_/" target="_blank" rel="noopener">@saleswed_</a></span>
+    <a href="../puxo/privacidade/">Política de privacidade</a>
+    <a class="sp" href="../">Outros apps do Criô</a>
+  </footer>
+</div>
+
+<script>
+var DOWNLOADS = { mac: "" };  // vazio = "Download em breve"
+document.querySelectorAll('[data-os]').forEach(function (a) {
+  var url = DOWNLOADS[a.getAttribute('data-os')];
+  if (url) { a.href = url; a.target = '_blank'; a.rel = 'noopener'; }
+  else { a.removeAttribute('href'); a.setAttribute('aria-disabled', 'true'); a.setAttribute('role', 'link'); a.textContent = 'Download em breve'; }
+});
+</script>
+</body>
+</html>
